@@ -1,0 +1,9 @@
+services:
+  server:
+    build: ./server
+    ports:
+      - 3000:80
+    volumes:
+      - ./server/src:/app/src
+    #depends_on:
+     # - db
