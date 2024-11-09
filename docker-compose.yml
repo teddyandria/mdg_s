@@ -2,8 +2,14 @@ services:
   server:
     build: ./server
     ports:
-      - 3000:80
+      - 3000:3000
     volumes:
       - ./server/src:/app/src
     #depends_on:
      # - db
+  client:
+    build: ./client
+    volumes:
+      - ./client/src:/app/src
+    ports:
+      - 8080:8080
