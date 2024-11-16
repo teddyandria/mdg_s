@@ -7,6 +7,10 @@ services:
       - ./server/src:/app/src
     depends_on:
       - db
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - ./env/server.env
   client:
     build: ./client
     volumes:
