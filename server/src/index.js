@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-app.use('/users', userRoutes)
+app.use('/', userRoutes)
 
 sequelize.authenticate()
     .then(() => console.log('Database connected'))
