@@ -1,15 +1,10 @@
 <script setup>
-
+  import MyNavBar from "@/components/MyNavBar.vue";
 </script>
 
 <template>
   <div id="app">
-    <header>
-      <nav>
-        <router-link to="/">Accueil</router-link>
-        <router-link to="/history">Histoire</router-link>
-      </nav>
-    </header>
+    <MyNavBar/>
     <main>
       <router-view/>
     </main>

@@ -14,6 +14,8 @@ const routes = [
         component: History,
     }
 ]
+
+
 const router = createRouter({
     history: createWebHistory(),
     routes
