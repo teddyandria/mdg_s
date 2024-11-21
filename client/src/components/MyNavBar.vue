@@ -1,5 +1,6 @@
 <script setup>
 import Account from "vue-material-design-icons/Account.vue"
+import MyLogo from "@/components/MyLogo.vue";
 
 
 </script>
@@ -7,13 +8,13 @@ import Account from "vue-material-design-icons/Account.vue"
 <template>
   <header>
     <div class="container">
-      <router-link to="/" class="nav-link"><span class="mada">Mada</span>Shop</router-link>
+      <MyLogo/>
       <nav class="nav-bar">
         <router-link to="/" class="nav-link">Accueil</router-link>
         <router-link to="/products" class="nav-link">Produits</router-link>
         <router-link to="/history" class="nav-link">Histoire</router-link>
       </nav>
-      <Account size="22"/>
+      <router-link to=""><Account size="22"/></router-link>
     </div>
   </header>
 
@@ -21,7 +22,7 @@ import Account from "vue-material-design-icons/Account.vue"
 
 <style scoped>
   header{
-    padding: 10px 20px;
+
     margin-bottom: 50px;
     font-family: var(--font-text);
   }
@@ -29,34 +30,28 @@ import Account from "vue-material-design-icons/Account.vue"
     width: 100%;
     display: flex;
     justify-content: space-between;
-  }
-
-  .container>.nav-link:nth-child(1){
-    font-size: 1.2em;
-    font-weight: bold;
-    font-family: var(--font-title);
-  }
-
-  .container>.nav-link:nth-child(1)>.mada{
-    color: var(--primary);
+    border-bottom: .5px solid var(--brown);
+    padding-bottom: 10px;
   }
 
   .nav-bar{
-    //width: 50%;
     display: flex;
     justify-content: space-around;
-    flex-basis: 30%;
+    flex-basis: 34%;
   }
-
-
 
   .nav-bar>.nav-link{
     font-family: var(--font-text);
     font-weight: 400;
-    display: inline-block;
+    font-size: 14px;
   }
 
   .nav-bar>.nav-link:hover, .nav-bar>.nav-link:active{
     color: var(--primary);
+  }
+
+  .nav-link:visited{
+    text-decoration: none ;
+    color: var(--text);
   }
 </style>

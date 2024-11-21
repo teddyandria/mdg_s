@@ -5,30 +5,16 @@
     --secondary: #447C3E;
     --tertiary: #F9F1EE;
     --sous-infos: #9A9A9A;
-    --font-text: "Poppins", serif;
+    --brown:#773320;
+    --font-text: "Raleway", sans-serif;
     --font-title: "Playfair Display", serif;
 }
 
-*{
-    box-sizing: border-box;
-    background-color: var(--background);
-}
-
-main{
-    font-size: 16px;
+body{
+    margin: 0;
+    padding: 0;
 }
 
 .nav-link{
     text-decoration: none;
-}
-
-.nav-link:visited{
-    text-decoration: none ;
-    color: var(--text);
-}
-
-.poppins-thin {
-    font-family: "Poppins", serif;
-    font-weight: 100;
-    font-style: normal;
 }
