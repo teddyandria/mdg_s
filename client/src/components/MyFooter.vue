@@ -28,6 +28,7 @@ footer{
   width: 100%;
   flex-shrink: 0;
   background-color: var(--secondary);
+  font-family: var(--font-text)
 }
 
 .navbar, .footer-form{
@@ -56,7 +57,6 @@ footer{
 .footer-form>p{
   padding: 0 0 10px;
   margin: 0;
-
 }
 
 .line{
@@ -64,8 +64,6 @@ footer{
   background-color: var(--brown);
   width:100%;
 }
-
-
 
 .navbar>.nav-link:visited{
   text-decoration: none ;

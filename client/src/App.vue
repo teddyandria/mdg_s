@@ -26,15 +26,17 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  font-size: var(--text-size);
 }
 
-header, main{
+header{
   padding: 10px 30px 0;
 }
 
 main{
   font-size: 16px;
   flex: 1 0 auto;
+  padding-top: 0;
 }
 </style>
 

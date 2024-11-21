@@ -22,8 +22,6 @@ import MyLogo from "@/components/MyLogo.vue";
 
 <style scoped>
   header{
-
-    margin-bottom: 50px;
     font-family: var(--font-text);
   }
   .container{
