@@ -45,7 +45,7 @@ import MyLogo from "@/components/MyLogo.vue";
   }
 
   .nav-bar>.nav-link:hover, .nav-bar>.nav-link:active{
-    color: var(--primary);
+    color: var(--primary-color);
   }
 
   .nav-link:visited{

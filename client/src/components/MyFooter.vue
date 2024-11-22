@@ -27,12 +27,12 @@ footer{
   height: auto;
   width: 100%;
   flex-shrink: 0;
-  background-color: var(--secondary);
+  background-color: var(--secondary-color);
   font-family: var(--font-text)
 }
 
 .navbar, .footer-form{
-  color: var(--tertiary);
+  color: var(--tertiary-color);
 }
 
 .container{
@@ -67,7 +67,7 @@ footer{
 
 .navbar>.nav-link:visited{
   text-decoration: none ;
-  color: var(--tertiary);
+  color: var(--tertiary-color);
 }
 
 </style>

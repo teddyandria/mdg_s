@@ -17,7 +17,7 @@ import AloAlo from "@/components/AloAlo.vue";
           <AloAlo/>
         </div>
         <div class="header-bottom">
-          <p>BUTTON</p>
+
         </div>
       </div>
     </div>
@@ -26,9 +26,12 @@ import AloAlo from "@/components/AloAlo.vue";
 
 <style scoped>
 
+  .container{
+    padding: 0;
+  }
   .header{
     max-width: 100%;
-    height: calc(100vh - 106px);
+    height: calc(100vh - 45px);
     background-image: url('../assets/images/header_hp.jpg');
     background-position: center;
     background-repeat: no-repeat;
@@ -38,7 +41,7 @@ import AloAlo from "@/components/AloAlo.vue";
   }
 
   .header>.middle{
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(3px);
     height: 100%;
   }
 
@@ -52,7 +55,7 @@ import AloAlo from "@/components/AloAlo.vue";
     margin: 50px 0 0;
     font-weight: lighter;
     letter-spacing: 4px;
-    color: var(--tertiary);
+    color: var(--tertiary-color);
     font-family: var(--font-title);
   }
 
@@ -60,12 +63,12 @@ import AloAlo from "@/components/AloAlo.vue";
     font-size: 50px;
     font-family: var(--font-title);
     letter-spacing: 4px;
-    color: var(--tertiary);
+    color: var(--tertiary-color);
     margin-top: 5px;
   }
 
   .header>.header-top>.center-header>.big-title-hp>span{
-    color: var(--tertiary);
+    color: var(--tertiary-color);
   }
 
 

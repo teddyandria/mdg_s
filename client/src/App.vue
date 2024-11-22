@@ -17,7 +17,7 @@
 
 *{
   box-sizing: border-box;
-  background-color: var(--background);
+  background-color: var(--background-color);
   margin: 0;
   padding: 0;
 }

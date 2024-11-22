@@ -15,6 +15,6 @@
 }
 
 .logo>.mada{
-  color: var(--primary);
+  color: var(--primary-color);
 }
 </style>
