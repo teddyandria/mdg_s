@@ -23,13 +23,7 @@ import MyLogo from "@/components/MyLogo.vue";
 </template>
 
 <style scoped>
-footer{
-  height: auto;
-  width: 100%;
-  flex-shrink: 0;
-  background-color: var(--secondary-color);
-  font-family: var(--font-text)
-}
+
 
 .navbar, .footer-form{
   color: var(--tertiary-color);
@@ -37,6 +31,11 @@ footer{
 
 .container{
   padding: 30px;
+  height: auto;
+  width: 100%;
+  flex-shrink: 0;
+  background-color: var(--secondary-color);
+  font-family: var(--font-text)
 }
 
 .container>.first-box-footer{
