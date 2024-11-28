@@ -55,7 +55,7 @@ defineProps({
   .nav-bar{
     display: flex;
     justify-content: space-around;
-    flex-basis: 34%;
+    flex-basis: 30%;
   }
 
   .nav-bar>.nav-link{
