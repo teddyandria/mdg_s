@@ -4,7 +4,7 @@ import ArrowTopRightThinIcon from "vue-material-design-icons/ArrowTopRightThin.v
 
 <template>
   <div class="container">
-    <div class="header">
+    <section id="header" class="header">
       <div class="middle flex justify-around items-center flex-col">
         <div class="header-top">
           <h3 class="discover text-xl text-center mb-20 -tracking-tighter">DÉCOUVREZ</h3>
@@ -18,8 +18,8 @@ import ArrowTopRightThinIcon from "vue-material-design-icons/ArrowTopRightThin.v
         </div>
 
       </div>
-    </div>
-    <div class="content">
+    </section>
+    <section id="history-main" class="content">
       <div class="grid grid-cols-3 gap-10">
         <div class="news border border-neutral-200 text-center p-2">
           <h2 class="text-base font-medium font-playFair">Nouvelles récentes</h2>
@@ -44,7 +44,10 @@ import ArrowTopRightThinIcon from "vue-material-design-icons/ArrowTopRightThin.v
               <h3 class="font-playFair text-sm font-medium flex">Histoire <arrow-top-right-thin-icon class="mt-1 ms-2" :size="20" /> </h3><img src="../assets/images/mdg.svg"  class="h-18 w-10 mx-auto mt-4" alt="madagascar"></router-link>
         </div>
       </div>
-    </div>
+      <div class="products grid">
+
+      </div>
+    </section>
   </div>
 </template>
 
