@@ -4,17 +4,24 @@ const userService = {
 
     create: async (data) => {
         try {
-        return await User.create(data);
+         const user = await User.create(data);
+         return { success: true, user };
         } catch(e){
             console.error(e);
+            return { success: false, error: 'Failed to create user.' };
         }
     },
 
     findOne: async (email) => {
         try{
-        return await User.findOne({where : {email: email}})
+           const user = await User.findOne({where : {email: email}})
+            if(!user){
+                return { success: false, error: 'Utilisateur introuvable.' };
+            }
+            return { success: true, user };
         } catch(e){
             console.error(e);
+            return { success: false, error: 'Utilisateur non trouvé.' };
         }
     }
 }
