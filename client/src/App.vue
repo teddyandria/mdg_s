@@ -2,10 +2,13 @@
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import MyNavBar from "@/components/MyNavBar.vue";
 import MyFooter from "@/components/MyFooter.vue";
-import {useRoute} from "vue-router"
+import { useRoute } from "vue-router";
+
 
 const route = useRoute();
-const isHomePage = computed(()=>route.name === "home");
+const isHomePage = computed(() => route.name === "home");
+
+const isNavbarHiddenOnRoute = computed(() => route.name === "admin");
 
 const isNavbarVisible = ref(true);
 let lastScrollPosition = 0;
@@ -28,10 +31,15 @@ onUnmounted(() => {
 <template>
   <div id="app">
     <main>
-      <MyNavBar :isHomePage="isHomePage" :isVisible="isNavbarVisible" />
-      <router-view />
+
+      <MyNavBar
+          v-if="!isNavbarHiddenOnRoute"
+          :isHomePage="isHomePage"
+          :isVisible="isNavbarVisible"
+      />
+      <router-view/>
     </main>
-    <MyFooter />
+    <MyFooter/>
   </div>
 </template>
 
