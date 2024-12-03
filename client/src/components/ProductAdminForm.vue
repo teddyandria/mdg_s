@@ -2,35 +2,35 @@
   <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
     <h1 class="text-3xl font-bold mb-6">Ajouter un produit</h1>
     <form @submit.prevent="createProduct" class="space-y-6">
-      <!-- Nom -->
+
       <div>
         <label for="name" class="block text-sm font-medium text-gray-700">Nom du produit</label>
         <input v-model="name" type="text" id="name" required
                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
       </div>
 
-      <!-- Description -->
+
       <div>
         <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
         <textarea v-model="description" id="description" required
                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
       </div>
 
-      <!-- Prix -->
+
       <div>
         <label for="price" class="block text-sm font-medium text-gray-700">Prix</label>
         <input v-model.number="price" type="number" id="price" required
                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
       </div>
 
-      <!-- Stock -->
+
       <div>
         <label for="stock" class="block text-sm font-medium text-gray-700">Stock</label>
         <input v-model.number="stock" type="number" id="stock" required
                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
       </div>
 
-      <!-- Catégorie -->
+
       <div>
         <label for="category" class="block text-sm font-medium text-gray-700">Catégorie</label>
         <!-- Vérifier si les catégories sont chargées -->
@@ -39,7 +39,7 @@
             {{ category.name }}
           </option>
         </select>
-        <!-- Message de chargement -->
+
         <div v-else class="mt-2 text-gray-500">Chargement des catégories...</div>
       </div>
 
@@ -50,7 +50,6 @@
                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
       </div>
 
-      <!-- Submit Button -->
       <div>
         <button type="submit" class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
           Créer le produit
@@ -58,7 +57,7 @@
       </div>
     </form>
 
-    <!-- Message après soumission -->
+
     <div v-if="message" class="mt-6 text-center">
       <p v-if="message === 'Produit créé avec succès !'" class="text-green-500 font-medium">{{ message }}</p>
       <p v-if="message !== 'Produit créé avec succès !'" class="text-red-500 font-medium">{{ message }}</p>
@@ -70,18 +69,17 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
-// État local pour stocker les données du produit
-const selectedCategory = ref(null);  // Pour stocker l'ID de la catégorie sélectionnée
-const categories = ref([]);  // Liste des catégories récupérées depuis l'API
+
+const selectedCategory = ref(null);
+const categories = ref([]);
 const name = ref('');
 const description = ref('');
 const price = ref('');
 const stock = ref('');
 
-const photos = ref([]); // Liste des photos téléchargées
-const message = ref(''); // Message de retour pour l'utilisateur
+const photos = ref([]);
+const message = ref('');
 
-// Gère les fichiers sélectionnés
 const handleFiles = (event) => {
   photos.value = Array.from(event.target.files);
 };
@@ -95,7 +93,6 @@ const fetchCategories = async () => {
   }
 };
 
-// Crée un produit via une requête API
 const createProduct = async () => {
   try {
     const formData = new FormData();
@@ -105,12 +102,10 @@ const createProduct = async () => {
     formData.append('stock', stock.value);
     formData.append('categoryId', selectedCategory.value);
 
-    // Ajouter les photos
     photos.value.forEach((photo) => {
       formData.append('photos', photo);
     });
 
-    // Envoyer la requête au backend
     const response = await axios.post('http://localhost:3000/createProducts', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
