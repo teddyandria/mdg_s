@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '../views/HomeView.vue';
 import History from '../views/HistoryView.vue';
 import AdminPage from '../components/ProductAdminForm.vue'
+import ProductAdminForm from '../components/ProductAdminForm.vue'
 
 const routes = [
     {
@@ -18,8 +19,12 @@ const routes = [
         path: '/admin',
         name:'admin',
         component: AdminPage
-
-    }
+    },
+    {
+        path: '/products',
+        name: 'products',
+        component: ProductAdminForm,
+    },
 ]
 
 const router = createRouter({

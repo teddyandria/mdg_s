@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const { sequelize } = require('./models');
 const userRoutes = require('./routes/userRoutes');
-// const categoryService = require('./services/productCategoryService');
+const categoryService = require('./services/productCategoryService');
 const productRoutes = require('./routes/productRoutes');
 const path = require('path');
 
@@ -28,10 +28,10 @@ async function startApp() {
         await sequelize.authenticate();
         console.log('Database connected');
 
-        await sequelize.sync({ alter: true });
+        await sequelize.sync({ force: true });
         console.log('Database synchronized');
 
-        // await categoryService.initializeCategories();
+        await categoryService.initializeCategories();
         // console.log('Categories initialized');
 
         app.listen(PORT, () => {

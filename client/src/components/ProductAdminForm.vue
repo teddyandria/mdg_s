@@ -1,150 +1,134 @@
-<script setup>
-import { ref} from "vue";
-import axios from "axios";
-
-const product = ref({
-  name: "",
-  description: "",
-  price: 0,
-  stock: 0,
-  photos: [],
-  productCategoryId: null, // Lié à la catégorie
-});
-
-// const categories = ref([]);
-//
-// // Charger les catégories depuis le backend
-// const fetchCategories = async () => {
-//   try {
-//     const response = await axios.get("http://localhost:3000/categories");
-//     categories.value = response.data;
-//   } catch (error) {
-//     console.error("Erreur lors du chargement des catégories :", error);
-//   }
-// };
-
-
-const submitProduct = async () => {
-  try {
-    const response = await axios.post("http://localhost:3000/products", product.value);
-    alert(`Produit créé avec succès : ${response.data.name}`);
-    resetForm();
-  } catch (error) {
-    console.error(error);
-    alert("Erreur lors de la création du produit");
-  }
-};
-
-
-const resetForm = () => {
-  product.value = {
-    name: "",
-    description: "",
-    price: 0,
-    stock: 0,
-    photos: [],
-    // productCategoryId: null,
-  };
-};
-
-
-// onMounted(fetchCategories);
-</script>
-
 <template>
-  <div class="max-w-2xl mx-auto mt-10">
-    <h1 class="text-2xl font-bold mb-6">Créer un Produit</h1>
-    <form @submit.prevent="submitProduct" class="space-y-4">
-
+  <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+    <h1 class="text-3xl font-bold mb-6">Ajouter un produit</h1>
+    <form @submit.prevent="createProduct" class="space-y-6">
       <!-- Nom -->
       <div>
-        <label for="name" class="block font-medium text-gray-700">Nom du produit</label>
-        <input
-            v-model="product.name"
-            type="text"
-            id="name"
-            required
-            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-        />
+        <label for="name" class="block text-sm font-medium text-gray-700">Nom du produit</label>
+        <input v-model="name" type="text" id="name" required
+               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
       </div>
 
       <!-- Description -->
       <div>
-        <label for="description" class="block font-medium text-gray-700">Description</label>
-        <textarea
-            v-model="product.description"
-            id="description"
-            required
-            rows="3"
-            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-        ></textarea>
+        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+        <textarea v-model="description" id="description" required
+                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
       </div>
 
       <!-- Prix -->
       <div>
-        <label for="price" class="block font-medium text-gray-700">Prix</label>
-        <input
-            v-model.number="product.price"
-            type="number"
-            id="price"
-            required
-            step="0.01"
-            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-        />
+        <label for="price" class="block text-sm font-medium text-gray-700">Prix</label>
+        <input v-model.number="price" type="number" id="price" required
+               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
       </div>
 
       <!-- Stock -->
       <div>
-        <label for="stock" class="block font-medium text-gray-700">Stock</label>
-        <input
-            v-model.number="product.stock"
-            type="number"
-            id="stock"
-            min="0"
-            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-        />
+        <label for="stock" class="block text-sm font-medium text-gray-700">Stock</label>
+        <input v-model.number="stock" type="number" id="stock" required
+               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+      </div>
+
+      <!-- Catégorie -->
+      <div>
+        <label for="category" class="block text-sm font-medium text-gray-700">Catégorie</label>
+        <!-- Vérifier si les catégories sont chargées -->
+        <select v-if="categories.length" v-model="selectedCategory" id="category" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+          <option v-for="category in categories" :key="category.id" :value="category.id">
+            {{ category.name }}
+          </option>
+        </select>
+        <!-- Message de chargement -->
+        <div v-else class="mt-2 text-gray-500">Chargement des catégories...</div>
       </div>
 
       <!-- Photos -->
       <div>
-        <label for="photos" class="block font-medium text-gray-700">Lien de la photo</label>
-        <input
-            v-model="product.photos"
-            type="text"
-            id="photos"
-            required
-            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-        />
+        <label for="photos" class="block text-sm font-medium text-gray-700">Photos</label>
+        <input @change="handleFiles" type="file" id="photos" multiple accept="image/*"
+               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
       </div>
 
-      <!-- Catégories -->
-<!--      <div>-->
-<!--        <label for="category" class="block font-medium text-gray-700">Catégorie</label>-->
-<!--        <select-->
-<!--            v-model="product.productCategoryId"-->
-<!--            id="category"-->
-<!--            required-->
-<!--            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"-->
-<!--        >-->
-<!--          <option value="" disabled>Sélectionnez une catégorie</option>-->
-<!--          <option v-for="category in categories" :key="category.id" :value="category.id">-->
-<!--            {{ category.name }}-->
-<!--          </option>-->
-<!--        </select>-->
-<!--      </div>-->
-
-      <div class="flex justify-between">
-        <button
-            type="submit"
-            class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:ring focus:ring-blue-400"
-        >
-          Créer
+      <!-- Submit Button -->
+      <div>
+        <button type="submit" class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+          Créer le produit
         </button>
       </div>
     </form>
+
+    <!-- Message après soumission -->
+    <div v-if="message" class="mt-6 text-center">
+      <p v-if="message === 'Produit créé avec succès !'" class="text-green-500 font-medium">{{ message }}</p>
+      <p v-if="message !== 'Produit créé avec succès !'" class="text-red-500 font-medium">{{ message }}</p>
+    </div>
   </div>
 </template>
 
-<style>
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
+// État local pour stocker les données du produit
+const selectedCategory = ref(null);  // Pour stocker l'ID de la catégorie sélectionnée
+const categories = ref([]);  // Liste des catégories récupérées depuis l'API
+const name = ref('');
+const description = ref('');
+const price = ref('');
+const stock = ref('');
+
+const photos = ref([]); // Liste des photos téléchargées
+const message = ref(''); // Message de retour pour l'utilisateur
+
+// Gère les fichiers sélectionnés
+const handleFiles = (event) => {
+  photos.value = Array.from(event.target.files);
+};
+
+const fetchCategories = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/categories');
+    categories.value = response.data;
+  } catch (error) {
+    console.error('Erreur lors de la récupération des catégories:', error);
+  }
+};
+
+// Crée un produit via une requête API
+const createProduct = async () => {
+  try {
+    const formData = new FormData();
+    formData.append('name', name.value);
+    formData.append('description', description.value);
+    formData.append('price', parseFloat(price.value));
+    formData.append('stock', stock.value);
+    formData.append('categoryId', selectedCategory.value);
+
+    // Ajouter les photos
+    photos.value.forEach((photo) => {
+      formData.append('photos', photo);
+    });
+
+    // Envoyer la requête au backend
+    const response = await axios.post('http://localhost:3000/createProducts', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    message.value = 'Produit créé avec succès !';
+    console.log(response.data);
+  } catch (error) {
+    console.error('Erreur lors de la création du produit:', error.response ? error.response.data : error);
+    message.value = 'Erreur lors de la création du produit.';
+  }
+};
+
+onMounted(() => {
+  fetchCategories();
+});
+</script>
+
+<style scoped>
 </style>

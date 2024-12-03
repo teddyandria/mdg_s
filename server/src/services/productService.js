@@ -1,5 +1,5 @@
 const ProductModel = require('../models/ProductModel');
-// const ProductCategoryModel = require('../models/ProductCategoryModel');
+const ProductCategoryModel = require('../models/ProductCategoryModel');
 
 const productService = {
 
@@ -12,11 +12,13 @@ const productService = {
     },
 
     getAllProducts: async () => {
-        try {
-            return await ProductModel.findAll();
-        } catch (error) {
-            throw new Error('Erreur lors de la récupération des produits.');
-        }
+        const products = await ProductModel.findAll({
+            include: {
+                model: ProductCategory,
+                attributes: ['name']
+            }
+        });
+        return products;
     },
 
     deleteProduct: async (id) => {
@@ -31,11 +33,31 @@ const productService = {
             throw new Error('Erreur lors de la suppression du produit.');
         }
     },
-    // getCategories: async () => {
-    //     return await ProductCategoryModel.findAll({
-    //         attributes: ["id", "name"],
-    //     });
-    // },
+    findOne: async (productId) => {
+        try {
+
+            const product = await ProductModel.findOne({
+                where: { id: productId },
+                include: [
+                    {
+                        model: ProductCategoryModel,
+                        as: 'category',
+                        attributes: ['name'],
+                    },
+                ],
+            });
+
+            return product;
+        } catch (error) {
+            console.error('Erreur lors de la récupération du produit :', error);
+            throw new Error('Erreur lors de la récupération du produit.');
+        }
+    },
+    getCategories: async () => {
+        return await ProductCategoryModel.findAll({
+            attributes: ["id", "name"],
+        });
+    },
 };
 
 module.exports = productService;
