@@ -16,7 +16,6 @@
                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
       </div>
 
-
       <div>
         <label for="price" class="block text-sm font-medium text-gray-700">Prix</label>
         <input v-model.number="price" type="number" id="price" required
@@ -33,7 +32,7 @@
 
       <div>
         <label for="category" class="block text-sm font-medium text-gray-700">Catégorie</label>
-        <!-- Vérifier si les catégories sont chargées -->
+
         <select v-if="categories.length" v-model="selectedCategory" id="category" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
           <option v-for="category in categories" :key="category.id" :value="category.id">
             {{ category.name }}
@@ -43,7 +42,7 @@
         <div v-else class="mt-2 text-gray-500">Chargement des catégories...</div>
       </div>
 
-      <!-- Photos -->
+
       <div>
         <label for="photos" class="block text-sm font-medium text-gray-700">Photos</label>
         <input @change="handleFiles" type="file" id="photos" multiple accept="image/*"
@@ -100,11 +99,14 @@ const createProduct = async () => {
     formData.append('description', description.value);
     formData.append('price', parseFloat(price.value));
     formData.append('stock', stock.value);
-    formData.append('categoryId', selectedCategory.value);
+    formData.append('categoryName', selectedCategory.value);
 
     photos.value.forEach((photo) => {
+      console.log('Envoi de la photo :', photo);
       formData.append('photos', photo);
     });
+
+    console.log(formData)
 
     const response = await axios.post('http://localhost:3000/createProducts', formData, {
       headers: {

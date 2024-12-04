@@ -28,7 +28,7 @@ async function startApp() {
         await sequelize.authenticate();
         console.log('Database connected');
 
-        await sequelize.sync({ force: true });
+        await sequelize.sync({ alter: true });
         console.log('Database synchronized');
 
         await categoryService.initializeCategories();

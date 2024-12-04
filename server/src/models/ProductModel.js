@@ -33,11 +33,7 @@ const ProductModel = sequelize.define('Product', {
     },
 })
 
-ProductModel.associate = function (models) {
-    ProductModel.belongsTo(ProductCategory, { foreignKey: 'categoryId', as: 'category' });
-    ProductCategory.hasMany(ProductModel, { foreignKey: 'categoryId', as: 'products' });
-}
-
-
+ProductModel.belongsTo(ProductCategory, { foreignKey: 'categoryId', as: 'category' });
+ProductCategory.hasMany(ProductModel, { foreignKey: 'categoryId', as: 'products' });
 
 module.exports = ProductModel

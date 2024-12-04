@@ -12,14 +12,21 @@ const productService = {
     },
 
     getAllProducts: async () => {
-        const products = await ProductModel.findAll({
-            include: {
-                model: ProductCategory,
-                attributes: ['name']
-            }
-        });
-        return products;
+        try {
+            const products = await ProductModel.findAll({
+                include: [{
+                    model: ProductCategoryModel,
+                    as: 'category',
+                    attributes: ['id', 'name'],
+                }],
+            });
+            return products;
+        } catch (error) {
+            console.error('Erreur lors de la récupération des produits:', error);
+            throw new Error('Impossible de récupérer les produits');
+        }
     },
+
 
     deleteProduct: async (id) => {
         try {
