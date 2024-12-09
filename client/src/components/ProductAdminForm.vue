@@ -34,7 +34,7 @@
         <label for="category" class="block text-sm font-medium text-gray-700">Catégorie</label>
 
         <select v-if="categories.length" v-model="selectedCategory" id="category" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-          <option v-for="category in categories" :key="category.id" :value="category.id">
+          <option v-for="category in categories" :key="category.id" :value="category.name">
             {{ category.name }}
           </option>
         </select>
@@ -69,7 +69,7 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
 
-const selectedCategory = ref(null);
+const selectedCategory = ref('');
 const categories = ref([]);
 const name = ref('');
 const description = ref('');
@@ -100,6 +100,9 @@ const createProduct = async () => {
     formData.append('price', parseFloat(price.value));
     formData.append('stock', stock.value);
     formData.append('categoryName', selectedCategory.value);
+
+    console.log(selectedCategory.value)
+
 
     photos.value.forEach((photo) => {
       console.log('Envoi de la photo :', photo);
