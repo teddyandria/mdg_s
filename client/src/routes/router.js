@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '../views/HomeView.vue';
 import History from '../views/HistoryView.vue';
 import AdminPage from '../views/AdminPage.vue'
-import ProductAdminForm from '../components/ProductAdminForm.vue'
+import Products from '../views/ProductView.vue'
+import ProductAdminForm from '../components/admin/ProductAdminForm.vue'
 
 const routes = [
     {
@@ -19,6 +20,11 @@ const routes = [
         path: '/admin',
         name:'admin',
         component: AdminPage,
+    },
+    {
+        path: '/products',
+        name:'products',
+        component: Products,
     },
 ]
 

@@ -3,21 +3,25 @@ import ArrowTopRightThinIcon from "vue-material-design-icons/ArrowTopRightThin.v
 import {CardContent, Card, CardTitle, CardHeader} from "@/components/ui/card";
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import ProductCard from "@/components/products/ProductCard.vue";
 
-const products = ref([]);
+// const products = ref([]);
+//
+// const fetchProducts = async () => {
+//   try {
+//     const response = await axios.get('http://localhost:3000/products');
+//     products.value = response.data.slice(0, 3);
+//   } catch (error) {
+//     console.error('Erreur lors de la récupération des produits:', error);
+//   }
+// };
 
-const fetchProducts = async () => {
-  try {
-    const response = await axios.get('http://localhost:3000/products');
-    products.value = response.data.slice(0, 3);
-  } catch (error) {
-    console.error('Erreur lors de la récupération des produits:', error);
-  }
-};
+// onMounted(() => {
+//   fetchProducts();
+// });
 
-onMounted(() => {
-  fetchProducts();
-});
+
+
 </script>
 
 <template>
@@ -27,7 +31,6 @@ onMounted(() => {
         <div class="header-top">
           <h3 class="discover text-xl text-center mb-20 -tracking-tighter">DÉCOUVREZ</h3>
           <h1 class="title-header text-5xl font-extralight mb-20">MADAGASCAR</h1>
-
         </div>
         <div class="">
           <button class="text-2xl text-white">
@@ -66,34 +69,7 @@ onMounted(() => {
 
       <h1 class="text-center font-playFair">Produits phares</h1>
       <div class="flex justify-center items-center flex-wrap gap-8 p-4">
-        <Card
-            v-for="(product, index) in products"
-            :key="index"
-            class="w-80 bg-white shadow-lg rounded-lg overflow-hidden"
-        >
-
-          <img
-              :src="`http://localhost:3000/uploads/${product.photos.split(',')[0]}`"
-              alt="Product Image"
-              class="w-full h-48 object-cover"
-          />
-
-          <div class="p-4">
-            <h3 class="text-lg font-medium text-gray-800 font-raleway">{{ product.name }}</h3>
-            <p class="text-green-500 text-xl mt-2 font-playFair">{{ product.price }}€</p>
-          </div>
-
-          <div class="p-4 bg-gray-100 flex items-center justify-between">
-            <span class="text-gray-700">Stock: {{ product.stock }}</span>
-
-            <router-link
-                :to="`/product/${product.id}`"
-                class="text-blue-600 hover:text-blue-800 text-sm font-semibold"
-            >
-              Voir le produit
-            </router-link>
-          </div>
-        </Card>
+        <ProductCard :is-home=true />
       </div>
       </div>
     </section>
