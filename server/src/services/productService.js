@@ -13,14 +13,13 @@ const productService = {
 
     getAllProducts: async () => {
         try {
-            const products = await ProductModel.findAll({
+            return await ProductModel.findAll({
                 include: [{
                     model: ProductCategoryModel,
                     as: 'category',
                     attributes: ['id', 'name'],
                 }],
             });
-            return products;
         } catch (error) {
             console.error('Erreur lors de la récupération des produits:', error);
             throw new Error('Impossible de récupérer les produits');
@@ -43,8 +42,8 @@ const productService = {
     findOne: async (productId) => {
         try {
 
-            const product = await ProductModel.findOne({
-                where: { id: productId },
+            return await ProductModel.findOne({
+                where: {id: productId},
                 include: [
                     {
                         model: ProductCategoryModel,
@@ -53,8 +52,6 @@ const productService = {
                     },
                 ],
             });
-
-            return product;
         } catch (error) {
             console.error('Erreur lors de la récupération du produit :', error);
             throw new Error('Erreur lors de la récupération du produit.');
@@ -64,6 +61,24 @@ const productService = {
         return await ProductCategoryModel.findAll({
             attributes: ["id", "name"],
         });
+    },
+    getProductsByCategoryId: async (categoryId) => {
+            return await ProductModel.findAll({
+                where: { categoryId },
+                attributes: ['id', 'name', 'description', 'price', 'stock', 'photos'],
+                include: [
+                    {
+                        model: ProductCategoryModel,
+                        as: 'category',
+                        attributes: ['name'],
+                    },
+                ],
+            });
+
+    },
+
+    findCategoryByName: async (categoryName) => {
+        return await ProductCategoryModel.findOne({ where: { name: categoryName.trim() }, });
     },
 };
 

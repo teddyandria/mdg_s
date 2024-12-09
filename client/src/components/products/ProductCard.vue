@@ -1,8 +1,8 @@
 <script setup>
-import {onMounted, ref} from "vue";
+import { onMounted, ref, watch } from "vue";
 import axios from "axios";
-import {Card} from "@/components/ui/card";
-import CardsHeartOutline from "vue-material-design-icons/CardsHeartOutline.vue"
+import { Card } from "@/components/ui/card";
+import CardsHeartOutline from "vue-material-design-icons/CardsHeartOutline.vue";
 
 const products = ref([]);
 
@@ -10,19 +10,31 @@ const props = defineProps({
   isHome: {
     type: Boolean,
     required: true,
-  }
-})
+  },
+  category: {
+    type: String,
+    default: null,
+  },
+});
 
 const fetchProducts = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/products');
-    products.value = props.isHome ? response.data.slice(0, 3) : response.data;
+    const encodedCategory = props.category ? encodeURIComponent(props.category) : '';
+    const endpoint = encodedCategory
+        ? `http://localhost:3000/products/category/${encodedCategory}`
+        : 'http://localhost:3000/products';
+    const response = await axios.get(endpoint);
+    products.value = response.data;
+
+    if (props.isHome) {
+      products.value = products.value.slice(0, 3);
+    }
   } catch (error) {
     console.error('Erreur lors de la récupération des produits:', error);
   }
 };
 
-
+watch(() => props.category, fetchProducts);
 
 onMounted(() => {
   fetchProducts();
@@ -36,7 +48,6 @@ onMounted(() => {
         :key="index"
         class="card-product w-80 shadow-lg rounded-s overflow-hidden mb-5"
     >
-
       <img
           :src="`http://localhost:3000/uploads/${product.photos.split(',')[0]}`"
           alt="Product Image"
@@ -49,7 +60,7 @@ onMounted(() => {
       </div>
 
       <div class="card-footer p-4 flex items-center justify-between font-raleway text-xs">
-        <span class="text-gray-500 uppercase" v-if="product.category?.name">{{ product.category.name}}</span>
+        <span class="text-gray-500 uppercase" v-if="product.category?.name">{{ product.category.name }}</span>
         <CardsHeartOutline class="text-gray-300"/>
         <router-link
             :to="`/product/${product.id}`"
@@ -63,11 +74,11 @@ onMounted(() => {
 </template>
 
 <style scoped>
-  .card-product {
-    background-color: var(--tertiary-color);
-  }
+.card-product {
+  background-color: var(--tertiary-color);
+}
 
-  .card-footer{
-    background-color: var(--card-color-bg);
-  }
+.card-footer {
+  background-color: var(--card-color-bg);
+}
 </style>

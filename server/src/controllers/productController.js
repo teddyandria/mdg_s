@@ -18,14 +18,14 @@ const productController = {
                 return res.status(400).json({ error: 'Tous les champs sont requis.' });
             }
 
-            const category = await ProductCategory.findOne({
+            const category = await productService.findOne({
                 where: { name: categoryName },
             });
 
             if (!category) {
                 return res.status(400).json({ error: `La catégorie '${categoryName}' n'existe pas.` });
             }
-            // Préparer les données du produit
+
             const productData = {
                 name,
                 description,
@@ -66,9 +66,27 @@ const productController = {
             res.json(categories);  // Envoie les catégories au frontend
         } catch (error) {
             console.error('Erreur lors de la récupération des catégories:', error);
+            res.status(500).json({error: 'Erreur interne du serveur.'});
+        }
+    },
+    getProductsByCategory: async (req, res) => {
+        try {
+            const categoryName = decodeURIComponent(req.params.categoryName).replace(/-/g, ' ');
+
+            const category = await productService.findCategoryByName(categoryName);
+
+            if (!category) {
+                return res.status(404).json({ error: `La catégorie '${categoryName}' n'existe pas.` });
+            }
+
+            const products = await productService.getProductsByCategoryId(category.id);
+
+            res.status(200).json(products);
+        } catch (error) {
+            console.error(error);
             res.status(500).json({ error: 'Erreur interne du serveur.' });
         }
-    }
+    },
 };
 
 module.exports = productController;
