@@ -14,13 +14,14 @@ const productController = {
 
             // Vérification des informations obligatoires dans le corps de la requête
             const { name, description, price, stock, categoryName } = req.body;
+
             if (!name || !description || !price || !stock || !categoryName) {
                 return res.status(400).json({ error: 'Tous les champs sont requis.' });
             }
 
-            const category = await productService.findOne({
-                where: { name: categoryName },
-            });
+            const category = await productService.findCategoryByName(
+                categoryName
+            );
 
             if (!category) {
                 return res.status(400).json({ error: `La catégorie '${categoryName}' n'existe pas.` });
@@ -62,8 +63,8 @@ const productController = {
     },
     getCategories: async (req, res) => {
         try {
-            const categories = await productService.getCategories();  // Récupère toutes les catégories
-            res.json(categories);  // Envoie les catégories au frontend
+            const categories = await productService.getCategories();
+            res.json(categories);
         } catch (error) {
             console.error('Erreur lors de la récupération des catégories:', error);
             res.status(500).json({error: 'Erreur interne du serveur.'});
@@ -74,12 +75,16 @@ const productController = {
             const categoryName = decodeURIComponent(req.params.categoryName).replace(/-/g, ' ');
 
             const category = await productService.findCategoryByName(categoryName);
-
             if (!category) {
                 return res.status(404).json({ error: `La catégorie '${categoryName}' n'existe pas.` });
             }
 
-            const products = await productService.getProductsByCategoryId(category.id);
+
+            const products = await productService.getProductsByCategory(category.id);
+
+            if (!products || products.length === 0) {
+                return res.status(404).json({ error: "Aucun produit trouvé pour cette catégorie." });
+            }
 
             res.status(200).json(products);
         } catch (error) {

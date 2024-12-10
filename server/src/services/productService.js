@@ -57,12 +57,22 @@ const productService = {
             throw new Error('Erreur lors de la récupération du produit.');
         }
     },
+    findCategoryByName: async (categoryName) => {
+        try {
+            return await ProductCategoryModel.findOne({
+                where: { name: categoryName },
+            });
+        } catch (error) {
+            console.error('Erreur lors de la recherche de la catégorie :', error);
+            throw new Error('Erreur lors de la recherche de la catégorie.');
+        }
+    },
     getCategories: async () => {
         return await ProductCategoryModel.findAll({
             attributes: ["id", "name"],
         });
     },
-    getProductsByCategoryId: async (categoryId) => {
+    getProductsByCategory: async (categoryId) => {
             return await ProductModel.findAll({
                 where: { categoryId },
                 attributes: ['id', 'name', 'description', 'price', 'stock', 'photos'],
@@ -74,11 +84,6 @@ const productService = {
                     },
                 ],
             });
-
-    },
-
-    findCategoryByName: async (categoryName) => {
-        return await ProductCategoryModel.findOne({ where: { name: categoryName.trim() }, });
     },
 };
 

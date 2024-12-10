@@ -3,7 +3,6 @@ import HomePage from '../views/HomeView.vue';
 import History from '../views/HistoryView.vue';
 import AdminPage from '../views/AdminPage.vue'
 import Products from '../views/ProductView.vue'
-import ProductAdminForm from '../components/admin/ProductAdminForm.vue'
 
 const routes = [
     {
@@ -25,7 +24,7 @@ const routes = [
         path: '/products',
         name:'products',
         component: Products,
-    },
+    }
 ]
 
 const router = createRouter({

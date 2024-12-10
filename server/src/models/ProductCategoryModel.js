@@ -8,6 +8,8 @@ const ProductCategory = sequelize.define('ProductCategory', {
         allowNull: false,
         unique: true,
     }
+}, {
+    timestamps: false,
 })
 
 module.exports = ProductCategory
