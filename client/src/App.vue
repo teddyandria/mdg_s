@@ -31,7 +31,6 @@ onUnmounted(() => {
 <template>
   <div id="app">
     <main>
-
       <MyNavBar
           v-if="!isNavbarHiddenOnRoute"
           :isHomePage="isHomePage"

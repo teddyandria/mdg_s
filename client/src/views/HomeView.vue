@@ -1,25 +1,17 @@
 <script setup>
 import ArrowTopRightThinIcon from "vue-material-design-icons/ArrowTopRightThin.vue"
-import {CardContent, Card, CardTitle, CardHeader} from "@/components/ui/card";
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
+
 import ProductCard from "@/components/products/ProductCard.vue";
 
-// const products = ref([]);
-//
-// const fetchProducts = async () => {
-//   try {
-//     const response = await axios.get('http://localhost:3000/products');
-//     products.value = response.data.slice(0, 3);
-//   } catch (error) {
-//     console.error('Erreur lors de la récupération des produits:', error);
-//   }
-// };
 
-// onMounted(() => {
-//   fetchProducts();
-// });
-
+const scrollToSection = () => {
+  // Utilisation de scrollIntoView pour scroller vers l'élément avec l'ID "history-main"
+  const section = document.getElementById('history-main');
+  section.scrollIntoView({
+    behavior: 'smooth', // Défilement fluide
+    block: 'start'      // Positionnement au début de la section
+  });
+};
 
 
 </script>
@@ -33,19 +25,37 @@ import ProductCard from "@/components/products/ProductCard.vue";
           <h1 class="title-header text-5xl font-extralight mb-20">MADAGASCAR</h1>
         </div>
         <div class="">
-          <button class="text-2xl text-white">
-            SCROLL
+          <button @click="scrollToSection" class="text-2xl text-white flex items-center gap-2">
+            <span class="font-raleway">Découvrir </span>
+            <!-- Animation de flèche -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="animate-bounce">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
           </button>
         </div>
-
       </div>
     </section>
     <section id="history-main" class="content">
       <div class="grid grid-cols-3 gap-10">
         <div class="news border border-neutral-200 text-center p-2">
-          <h2 class="text-base font-medium font-playFair">Nouvelles récentes</h2>
-          <div>
-            <div></div>
+          <h2 class="text-base font-medium font-playFair mb-5 ">Nouvelles récentes</h2>
+          <div class="text-start">
+            <div class="">
+              <h3 class="text-sm font-semibold leading-4">La Réintroduction du Lémurien Noir dans les Parcs Nationaux</h3>
+              <p class="text-xs text-gray-500">Publié le 5/12/2024</p>
+            </div>
+            <div class="my-6">
+              <h3 class="text-sm font-semibold leading-4">Madagascar : Un Nouveau Parc Marin Pour Protéger la Biodiversité</h3>
+              <p class="text-xs text-gray-500">Publié le 3/12/2024</p>
+            </div>
+            <div class="mb-6">
+              <h3 class="text-sm font-semibold leading-4 mb-1">Les Initiatives Écologiques des Villages du Sud de Madagascar</h3>
+              <p class="text-xs text-gray-500">Publié le 26/11/2024</p>
+            </div>
+            <div class="">
+              <h3 class="text-sm font-semibold leading-4">La colère du peuple Malgache</h3>
+              <p class="text-xs text-gray-500">Publié le 30/09/2024</p>
+            </div>
           </div>
         </div>
         <div class="central-content">

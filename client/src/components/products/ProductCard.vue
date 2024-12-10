@@ -63,7 +63,7 @@ onMounted(() => {
         <span class="text-gray-500 uppercase" v-if="product.category?.name">{{ product.category.name }}</span>
         <CardsHeartOutline class="text-gray-300"/>
         <router-link
-            :to="`/product/${product.id}`"
+            :to="`/products/${product.id}`"
             class="text-green-800 hover:text-green-600 text-xs font-semibold text-center"
         >
           Voir le produit

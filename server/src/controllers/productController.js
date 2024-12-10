@@ -1,5 +1,6 @@
 const productService = require('../services/productService');
 const ProductCategory = require('../models/ProductCategoryModel');
+const ProductModel = require("../models/ProductModel");
 
 const productController = {
 
@@ -73,18 +74,8 @@ const productController = {
     getProductsByCategory: async (req, res) => {
         try {
             const categoryName = decodeURIComponent(req.params.categoryName).replace(/-/g, ' ');
-
             const category = await productService.findCategoryByName(categoryName);
-            if (!category) {
-                return res.status(404).json({ error: `La catégorie '${categoryName}' n'existe pas.` });
-            }
-
-
             const products = await productService.getProductsByCategory(category.id);
-
-            if (!products || products.length === 0) {
-                return res.status(404).json({ error: "Aucun produit trouvé pour cette catégorie." });
-            }
 
             res.status(200).json(products);
         } catch (error) {
@@ -92,6 +83,21 @@ const productController = {
             res.status(500).json({ error: 'Erreur interne du serveur.' });
         }
     },
+    getOneProductWithId: async (req, res) => {
+        const productId = req.params.id;
+        try {
+            const product = await productService.findOneProduct(productId);
+
+            if (!product) {
+                return res.status(404).json({ error: 'Produit non trouvé.' });
+            }
+
+            res.status(200).json(product);
+        } catch (error) {
+            console.error('Erreur lors de la récupération du produit:', error);
+            return res.status(500).json({ error: 'Erreur interne du serveur.' });
+        }
+    }
 };
 
 module.exports = productController;

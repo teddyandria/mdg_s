@@ -30,7 +30,7 @@ defineProps({
         <router-link to="/products" class="nav-link">Produits</router-link>
         <router-link to="/history" class="nav-link">Histoire</router-link>
       </nav>
-      <router-link to=""><Account size="22"/></router-link>
+      <router-link to="/"><Account size="22"/></router-link>
     </div>
   </header>
 

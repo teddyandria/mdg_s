@@ -2,7 +2,6 @@
 import ProductCard from "@/components/products/ProductCard.vue";
 import axios from "axios";
 import {onMounted, ref} from "vue";
-import {useRoute, useRouter} from "vue-router";
 
 const categories = ref([]);
 const selectedCategory = ref(null);
@@ -41,8 +40,8 @@ onMounted(() => {
   <div class="container py-14 flex items-center flex-col">
     <div class="categories flex justify-evenly font-raleway text-sm mb-10 mt-5 w-3/5">
       <div
-          v-for="(category, index) in categories"
-          :key="index"
+          v-for="category in categories"
+          :key="category.id"
       >
         <button
             class="font-medium focus:underline"
@@ -56,6 +55,7 @@ onMounted(() => {
     <ProductCard
         :is-home="false"
         :category="selectedCategory"
+        :products="products"
     />
   </div>
 </template>
