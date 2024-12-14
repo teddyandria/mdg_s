@@ -1,7 +1,7 @@
 // models/userModel.js
 const bcrypt = require('bcrypt');
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const sequelize = require('../config/db.config');
 
 const UserModel = sequelize.define('User', {
     username: {

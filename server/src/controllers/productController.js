@@ -1,9 +1,8 @@
+const fs = require('fs');
+const path = require('path');
 const productService = require('../services/productService');
-const ProductCategory = require('../models/ProductCategoryModel');
-const ProductModel = require("../models/ProductModel");
 
 const productController = {
-
     createProduct: async (req, res) => {
         try {
             // Vérifier si des fichiers ont été envoyés
@@ -56,12 +55,38 @@ const productController = {
     deleteProduct: async (req, res) => {
         try {
             const { id } = req.params;
+
+            // Étape 1 : Récupérer le produit à supprimer
+            const product = await productService.findOneProduct(id);
+
+            if (!product) {
+                return res.status(404).json({ message: 'Produit non trouvé.' });
+            }
+
+            // Étape 2 : Supprimer les fichiers associés au produit
+            const photoPaths = product.photos.split(',');
+
+            photoPaths.forEach((photo) => {
+                const filePath = path.join(__dirname, '../uploads', photo);
+
+                fs.unlink(filePath, (err) => {
+                    if (err) {
+                        console.error(`Erreur lors de la suppression de l'image (${photo}):`, err);
+                    } else {
+                        console.log(`Image supprimée : ${photo}`);
+                    }
+                });
+            });
+
             await productService.deleteProduct(id);
-            res.status(200).json({ message: 'Produit supprimé avec succès.' });
+
+            res.status(200).json({ message: 'Produit et images associés supprimés avec succès.' });
         } catch (error) {
+            console.error('Erreur lors de la suppression du produit :', error);
             res.status(500).json({ error: error.message });
         }
     },
+
     getCategories: async (req, res) => {
         try {
             const categories = await productService.getCategories();
