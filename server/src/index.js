@@ -48,17 +48,31 @@ async function initializeProducts() {
 
         if (products.length > 0) {
             for (const product of products) {
-                await Product.create(product);
+                if (!product.id || typeof product.id === "undefined" || product.id === null) {
+                    console.warn(`Le produit "${product.name || 'Unnamed'}" n'a pas d'ID valide. Ignoré.`);
+                    continue;
+                }
+
+                const existingProduct = await Product.findOne({
+                    where: { id: product.id }
+                });
+
+
+
+                if (!existingProduct) {
+                    await Product.create(product);
+                } else {
+                    console.log(`Produit "${product.name}" déjà présent dans la base de données.`);
+                }
             }
-            console.log(`Successfully initialized ${products.length} products from the JSON file.`);
+            console.log(`Initialisation des produits terminée. ${products.length} produits ont été vérifiés.`);
         } else {
-            console.log('No products found in JSON file to initialize.');
+            console.log('Aucun produit trouvé dans le fichier JSON pour l\'initialisation.');
         }
     } catch (error) {
-        console.error('Error initializing products from JSON:', error);
+        console.error('Erreur lors de l\'initialisation des produits à partir du JSON :', error);
     }
 }
-
 
 async function startApp() {
     try {
