@@ -32,6 +32,13 @@ defineProps({
         <router-link to="/products" class="nav-link">Produits</router-link>
         <router-link to="/history" class="nav-link">Histoire</router-link>
       </nav>
+      <router-link
+          v-if="userIsAuthenticated"
+          to="/cart"
+          class="text-gray-700 hover:text-green-500"
+      >
+        Panier
+      </router-link>
       <router-link :to="userIsAuthenticated ? '/dashboard' : '/login'">
         <Account size="22" />
       </router-link>
@@ -78,19 +85,10 @@ defineProps({
     text-decoration: none ;
   }
 
-  .bg-transparent{
-    background-color: transparent;
-    color: var(--tertiary-color);
-  }
-
   .bg-transparent .logo{
     color: var(--tertiary-color);
   }
 
-  .bg-white{
-    background-color: var(--background-color);
-    color: var(--text)
-  }
 
   .bg-white .logo{
     color: var(--text)

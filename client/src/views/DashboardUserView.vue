@@ -19,6 +19,13 @@
         Voir les produits
       </router-link>
 
+      <router-link
+          to="/cart"
+          class="block w-48 py-2 px-4 text-center text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+      >
+        Voir mon panier
+      </router-link>
+
       <button
           @click="logout"
           class="w-48 py-2 px-4 text-center text-white bg-red-500 rounded-lg hover:bg-red-600 transition duration-300"
@@ -30,15 +37,17 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import {ref} from "vue";
+import {useRouter} from "vue-router";
 
 const token = localStorage.getItem("token");
 const username = ref(localStorage.getItem("username") || "Utilisateur");
+
 const router = useRouter();
 
 const logout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("username");
-  router.push("/login")};
+  router.push("/login");
+};
 </script>

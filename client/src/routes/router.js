@@ -8,7 +8,8 @@ import SignUp from "@/views/SignUp.vue";
 import Login from "@/views/loginView.vue";
 import AlreadyConnected from "@/views/AlreadyConnected.vue";
 import DashboardPage from "@/views/DashboardUserView.vue";
-
+import ProductCartUser from "@/views/products/ProductCartUser.vue";
+import OrderPage from "@/views/order/OrderPage.vue";
 const routes = [
     {
         path: '/',
@@ -60,6 +61,21 @@ const routes = [
     {
         path: "/already-connected",
         component: AlreadyConnected
+    },
+    {
+        path: "/cart",
+        name: "Cart",
+        component: ProductCartUser,
+    },
+    {
+        path: "/order",
+        name: "OrderPage",
+        component: OrderPage,
+    },
+    {
+        path: "/confirmation",
+        name: "ConfirmationPage",
+        component: () => import("@/views/order/ConfirmationPage.vue"),
     },
 ]
 

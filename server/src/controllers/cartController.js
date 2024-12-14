@@ -36,7 +36,21 @@ const cartController = {
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
-    }
+    },
+    updateProductQuantity: async (req, res) => {
+        try {
+            const { userId, productId, quantity } = req.body;
+
+            if (!userId || !productId || (typeof quantity === 'undefined')) {
+                return res.status(400).json({ error: "userId, productId et quantity sont requis." });
+            }
+
+            const result = await cartService.updateCartItemQuantity(userId, productId, quantity);
+            res.status(200).json(result);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
 };
 
 module.exports = cartController;

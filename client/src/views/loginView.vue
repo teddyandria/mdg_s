@@ -55,7 +55,6 @@ async function handleLogin() {
 </script>
 
 <style scoped>
-/* Ajoutez vos styles ici */
 .login {
   max-width: 400px;
   margin: 0 auto;

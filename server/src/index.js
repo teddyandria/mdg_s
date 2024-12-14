@@ -5,6 +5,8 @@ const { sequelize } = require('./models');
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
 const cartRoutes = require('./routes/cartRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+
 const categoryService = require('./services/productCategoryService');
 
 const path = require('path');
@@ -26,6 +28,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/', userRoutes);
 app.use('/', productRoutes);
 app.use('/', cartRoutes)
+app.use('/', orderRoutes)
 
 async function startApp() {
     try {
@@ -38,7 +41,6 @@ async function startApp() {
         console.log('Database synchronized');
 
         await categoryService.initializeCategories();
-        // console.log('Categories initialized');
 
         app.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`);

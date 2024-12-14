@@ -95,7 +95,37 @@ const cartService = {
             console.error('Erreur lors de la suppression du produit du panier :', error);
             throw new Error('Erreur lors de la suppression du produit du panier.');
         }
-    }
+    },
+    updateCartItemQuantity: async (userId, productId, newQuantity) => {
+        try {
+            const cart = await CartModel.findOne({
+                where: { userId }
+            });
+
+            if (!cart) {
+                throw new Error("Le panier n'existe pas pour cet utilisateur.");
+            }
+
+            const cartProduct = await CartProductModel.findOne({
+                where: { cartId: cart.id, productId }
+            });
+
+            if (!cartProduct) {
+                throw new Error("Ce produit n'existe pas dans le panier.");
+            }
+
+            // Met à jour la quantité demandée
+            cartProduct.quantity = newQuantity;
+            await cartProduct.save();
+
+            return {
+                message: 'Quantité mise à jour avec succès.',
+            };
+        } catch (error) {
+            console.error("Erreur lors de la mise à jour de la quantité :", error);
+            throw new Error("Erreur lors de la mise à jour de la quantité de l'article.");
+        }
+    },
 };
 
 module.exports = cartService;

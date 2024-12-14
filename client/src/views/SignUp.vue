@@ -133,5 +133,4 @@ const handleSignUp = async () => {
 </template>
 
 <style scoped>
-/* Styles personnalisés pour la page d'inscription si nécessaire */
 </style>
