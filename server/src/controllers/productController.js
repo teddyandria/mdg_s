@@ -1,5 +1,6 @@
 const productService = require('../services/productService');
 const ProductCategory = require('../models/ProductCategoryModel');
+const ProductModel = require("../models/ProductModel");
 
 const productController = {
 
@@ -9,36 +10,36 @@ const productController = {
             if (!req.files || req.files.length === 0) {
                 return res.status(400).json({ error: 'Aucune photo téléchargée.' });
             }
-
             // Extraire les chemins et les noms des fichiers
             const photoNames = req.files.map(file => file.filename);
 
             // Vérification des informations obligatoires dans le corps de la requête
             const { name, description, price, stock, categoryName } = req.body;
-            if (!name || !description || !price || !stock) {
+
+            if (!name || !description || !price || !stock || !categoryName) {
                 return res.status(400).json({ error: 'Tous les champs sont requis.' });
             }
 
-            // Vérification de l'existence de la catégorie
-            //let category = await ProductCategory.findOne({ where: { name: categoryName } });
+            const category = await productService.findCategoryByName(
+                categoryName
+            );
 
+            if (!category) {
+                return res.status(400).json({ error: `La catégorie '${categoryName}' n'existe pas.` });
+            }
 
-            // Préparer les données du produit
             const productData = {
                 name,
                 description,
                 price: parseFloat(price),
                 stock: parseInt(stock, 10),
                 photos: photoNames.join(','),
-                //categoryId: category.id,
+                categoryId: category.id,
             };
-
-
             const product = await productService.createProduct(productData);
 
             res.status(201).json(product);
         } catch (error) {
-
             console.error(error);
             res.status(500).json({ error: 'Erreur interne du serveur.' });
         }
@@ -63,11 +64,38 @@ const productController = {
     },
     getCategories: async (req, res) => {
         try {
-            const categories = await productService.getCategories();  // Récupère toutes les catégories
-            res.json(categories);  // Envoie les catégories au frontend
+            const categories = await productService.getCategories();
+            res.json(categories);
         } catch (error) {
             console.error('Erreur lors de la récupération des catégories:', error);
+            res.status(500).json({error: 'Erreur interne du serveur.'});
+        }
+    },
+    getProductsByCategory: async (req, res) => {
+        try {
+            const categoryName = decodeURIComponent(req.params.categoryName).replace(/-/g, ' ');
+            const category = await productService.findCategoryByName(categoryName);
+            const products = await productService.getProductsByCategory(category.id);
+
+            res.status(200).json(products);
+        } catch (error) {
+            console.error(error);
             res.status(500).json({ error: 'Erreur interne du serveur.' });
+        }
+    },
+    getOneProductWithId: async (req, res) => {
+        const productId = req.params.id;
+        try {
+            const product = await productService.findOneProduct(productId);
+
+            if (!product) {
+                return res.status(404).json({ error: 'Produit non trouvé.' });
+            }
+
+            res.status(200).json(product);
+        } catch (error) {
+            console.error('Erreur lors de la récupération du produit:', error);
+            return res.status(500).json({ error: 'Erreur interne du serveur.' });
         }
     }
 };

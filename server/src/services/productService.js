@@ -12,13 +12,18 @@ const productService = {
     },
 
     getAllProducts: async () => {
-        const products = await ProductModel.findAll({
-            include: {
-                model: ProductCategory,
-                attributes: ['name']
-            }
-        });
-        return products;
+        try {
+            return await ProductModel.findAll({
+                include: [{
+                    model: ProductCategoryModel,
+                    as: 'category',
+                    attributes: ['id', 'name'],
+                }],
+            });
+        } catch (error) {
+            console.error('Erreur lors de la récupération des produits:', error);
+            throw new Error('Impossible de récupérer les produits');
+        }
     },
 
     deleteProduct: async (id) => {
@@ -33,31 +38,61 @@ const productService = {
             throw new Error('Erreur lors de la suppression du produit.');
         }
     },
-    findOne: async (productId) => {
+    findOneProduct: async (productId) => {
         try {
-
-            const product = await ProductModel.findOne({
+            return await ProductModel.findOne({
                 where: { id: productId },
-                include: [
-                    {
-                        model: ProductCategoryModel,
-                        as: 'category',
-                        attributes: ['name'],
-                    },
-                ],
+                include: [{
+                    model: ProductCategoryModel,
+                    as: 'category',
+                    attributes: ['name'],
+                }],
             });
-
-            return product;
         } catch (error) {
             console.error('Erreur lors de la récupération du produit :', error);
             throw new Error('Erreur lors de la récupération du produit.');
         }
     },
+
+    findCategoryByName: async (categoryName) => {
+        try {
+            return await ProductCategoryModel.findOne({
+                where: { name: categoryName },
+            });
+        } catch (error) {
+            console.error('Erreur lors de la recherche de la catégorie :', error);
+            throw new Error('Erreur lors de la recherche de la catégorie.');
+        }
+    },
+
     getCategories: async () => {
-        return await ProductCategoryModel.findAll({
-            attributes: ["id", "name"],
+        try {
+            return await ProductCategoryModel.findAll({
+                attributes: ["id", "name"],
+            });
+        } catch (error) {
+            console.error("Erreur lors du findAll Sequelize :", error);
+            throw new Error('Impossible de récupérer les catégories.');
+        }
+    },
+    getProductsByCategory: async (categoryId) => {
+        if (!categoryId) {
+            throw new Error('Category ID manquant');
+        }
+
+        return await ProductModel.findAll({
+            where: { categoryId },
+            attributes: ['id', 'name', 'description', 'price', 'stock', 'photos'],
+            include: [
+                {
+                    model: ProductCategoryModel,
+                    as: 'category',
+                    attributes: ['name'],
+                },
+            ],
         });
     },
+
 };
 
 module.exports = productService;

@@ -2,7 +2,7 @@ services:
   server:
     build: ./server
     ports:
-      - 3000:3000
+      - "3000:3000"
     volumes:
       - ./server/src:/app/src
     depends_on:
@@ -16,14 +16,14 @@ services:
     volumes:
       - ./client/src:/app/src
     ports:
-      - 8080:8080
+      - "8080:8080"
   db:
     container_name: postgresql
     image: postgres
     env_file:
       - ./env/db.env
     ports:
-      - 5431:5432
+      - "5431:5432"
     volumes:
       - madashop:/var/lib/postgresql/data
 

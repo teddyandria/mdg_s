@@ -1,5 +1,5 @@
 <script setup>
-import ProductAdminForm from "../components/ProductAdminForm.vue";
+import ProductAdminForm from "../components/admin/ProductAdminForm.vue";
 
 </script>
 

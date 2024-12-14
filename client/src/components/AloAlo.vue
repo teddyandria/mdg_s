@@ -10,10 +10,10 @@
 
 <style scoped>
 .alo{
-  border: 0.5px solid var(--tertiary-color);
+  border: 1px solid rgba(0, 0, 0, .2);
   border-radius: 0 50px 0 50px;
-  width: 78px;
-  height: 270px;
+  width: 82px;
+  height: 350px;
   display: flex;
   align-items: center;
 }

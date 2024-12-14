@@ -7,17 +7,26 @@ const categoryService = {
             { name: 'Textiles & Tissus' },
             { name: 'Objets en bois' },
             { name: 'Accessoires' },
-            { name: 'Produits de bien-être' },
+            { name: 'Bien être' },
         ];
 
         try {
-            // vérifie si des catégories existent déjà
             const existingCategories = await ProductCategory.findAll({
                 attributes: ['name'],
                 raw: true,
             });
 
             const existingCategoryNames = existingCategories.map(cat => cat.name);
+
+            for (const existingCategoryName of existingCategoryNames) {
+                const isCategoryInNewList = categories.some(cat => cat.name === existingCategoryName);
+                if (!isCategoryInNewList) {
+                    await ProductCategory.destroy({
+                        where: { name: existingCategoryName }
+                    });
+                    console.log(`Ancienne catégorie '${existingCategoryName}' supprimée.`);
+                }
+            }
 
             for (const category of categories) {
                 if (!existingCategoryNames.includes(category.name)) {
