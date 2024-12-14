@@ -29,7 +29,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div id="app">
+  <div id="app" class="bg-mdgBg">
     <main>
       <MyNavBar
           v-if="!isNavbarHiddenOnRoute"
@@ -45,7 +45,6 @@ onUnmounted(() => {
 <style scoped>
 * {
   box-sizing: border-box;
-  background-color: var(--background-color);
   margin: 0;
   padding: 0;
 }

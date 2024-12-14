@@ -1,9 +1,11 @@
 <script setup>
-import Account from "vue-material-design-icons/Account.vue"
+import Account from "vue-material-design-icons/Account.vue";
 import MyLogo from "@/components/MyLogo.vue";
-import { computed } from "vue";
+import { ref, computed } from "vue";
+import CartOutline from "vue-material-design-icons/CartOutline.vue";
 
 const userIsAuthenticated = computed(() => !!localStorage.getItem("token"));
+
 defineProps({
   isHomePage: {
     type: Boolean,
@@ -15,83 +17,77 @@ defineProps({
   },
 });
 
+const isMobileMenuOpen = ref(false);
+
+const toggleMobileMenu = () => {
+  isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
 </script>
 
 <template>
   <header
       :class="[
-      isHomePage ? 'bg-transparent' : 'bg-white shadow-md',
+      'fixed top-0 left-0 w-full z-50 px-4 sm:px-8 py-3 transition-all duration-300 font-poppins',
+      isHomePage ? 'bg-transparent shadow-none' : 'bg-white shadow-md',
       isVisible ? 'translate-y-0' : '-translate-y-full'
     ]"
   >
-    <div class="container">
-      <MyLogo/>
+    <div class="flex justify-between items-center text-mdgWhite">
 
-      <nav class="nav-bar">
-        <router-link to="/" class="nav-link">Accueil</router-link>
-        <router-link to="/products" class="nav-link">Produits</router-link>
-        <router-link to="/history" class="nav-link">Histoire</router-link>
-      </nav>
-      <router-link
-          v-if="userIsAuthenticated"
-          to="/cart"
-          class="text-gray-700 hover:text-green-500"
+      <MyLogo :class="isHomePage ? 'text-tertiary' : 'text-black'"/>
+
+      <button
+          class="block md:hidden text-gray-700 hover:text-primary"
+          @click="toggleMobileMenu"
       >
-        Panier
-      </router-link>
-      <router-link :to="userIsAuthenticated ? '/dashboard' : '/login'">
-        <Account size="22" />
-      </router-link>
-    </div>
-  </header>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
 
+      <nav class="hidden md:flex space-x-8">
+        <router-link to="/" class="text-sm font-regular hover:text-primary">
+          Accueil
+        </router-link>
+        <router-link to="/products" class="text-sm font-regular hover:text-primary">
+          Produits
+        </router-link>
+      </nav>
+
+      <div class="flex items-center space-x-4">
+        <router-link
+            v-if="userIsAuthenticated"
+            to="/cart"
+            class="hover:text-primary"
+        >
+          <CartOutline />
+        </router-link>
+        <router-link
+            :to="userIsAuthenticated ? '/dashboard' : '/login'"
+            class="hover:text-primary"
+        >
+          <Account size="22" />
+        </router-link>
+      </div>
+
+    </div>
+
+    <nav
+        v-if="isMobileMenuOpen"
+        class="mt-4 md:hidden flex flex-col space-y-4 bg-white shadow-md px-6 py-4 rounded"
+    >
+      <router-link to="/" class="text-sm font-medium text-gray-700 hover:text-primary">
+        Accueil
+      </router-link>
+      <router-link to="/products" class="text-sm font-medium text-gray-700 hover:text-primary">
+        Produits
+      </router-link>
+    </nav>
+  </header>
 </template>
 
 <style scoped>
-  header{
-    font-family: var(--font-text);
-    padding: 10px 30px 0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 50;
-    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  .container{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .nav-bar{
-    display: flex;
-    justify-content: space-around;
-    flex-basis: 30%;
-  }
-
-  .nav-bar>.nav-link{
-    font-family: var(--font-text);
-    font-weight: 400;
-    font-size: 14px;
-
-  }
-
-  .nav-bar>.nav-link:hover, .nav-bar>.nav-link:active{
-    color: var(--primary-color);
-  }
-
-  .nav-link:visited{
-    text-decoration: none ;
-  }
-
-  .bg-transparent .logo{
-    color: var(--tertiary-color);
-  }
-
-
-  .bg-white .logo{
-    color: var(--text)
-  }
-
+nav {
+  transition: all 0.3s ease-in-out;
+}
 </style>

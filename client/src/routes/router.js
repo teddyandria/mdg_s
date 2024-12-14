@@ -37,6 +37,12 @@ const routes = [
         component: ProductPage,
     },
     {
+        path: "/products/:categoryName",
+        name: "ProductsByCategory",
+        component: Products,
+        props: true,
+    },
+    {
         path: '/signup',
         name: 'signup',
         component: SignUp,
