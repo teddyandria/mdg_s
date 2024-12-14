@@ -36,8 +36,10 @@ const UserModel = sequelize.define('User', {
         },
     },
 });
-UserModel.prototype.validatePassword = async function (password) {
-    return await bcrypt.compare(password, this.password);
-};
-
+// UserModel.prototype.validatePassword = async function (password) {
+//     if (!this.password) {
+//         throw new Error("Le mot de passe hashé est introuvable.");
+//     }
+//     return await bcrypt.compare(password, this.password);
+// }
 module.exports = UserModel;

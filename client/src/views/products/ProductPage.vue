@@ -39,10 +39,6 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div v-if="loading" class="loading">
-    <p>Chargement en cours...</p>
-  </div>
-
   <div v-if="product" class="product-page mt-5">
 
     <div class="product-details container py-14">
@@ -75,7 +71,7 @@ onMounted(() => {
         </div>
         <AloAlo/>
       </div>
-      <div class="product-info mt-10 w-max">
+      <div class="product-info mt-10 w-4/4">
         <h3 class="font-raleway text-lg my-3">Description</h3>
         <p class="description font-raleway">{{ product.description }}</p>
       </div>

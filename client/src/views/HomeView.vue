@@ -27,7 +27,6 @@ const scrollToSection = () => {
         <div class="">
           <button @click="scrollToSection" class="text-2xl text-white flex items-center gap-2">
             <span class="font-raleway">Découvrir </span>
-            <!-- Animation de flèche -->
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="animate-bounce">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>

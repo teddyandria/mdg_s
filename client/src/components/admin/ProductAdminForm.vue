@@ -85,7 +85,7 @@ const handleFiles = (event) => {
 
 const fetchCategories = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/categories');
+    const response = await axios.get('http://localhost:3000/products/categories');
     categories.value = response.data;
   } catch (error) {
     console.error('Erreur lors de la récupération des catégories:', error);

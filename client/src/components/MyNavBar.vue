@@ -1,7 +1,9 @@
 <script setup>
 import Account from "vue-material-design-icons/Account.vue"
 import MyLogo from "@/components/MyLogo.vue";
+import { computed } from "vue";
 
+const userIsAuthenticated = computed(() => !!localStorage.getItem("token"));
 defineProps({
   isHomePage: {
     type: Boolean,
@@ -30,7 +32,9 @@ defineProps({
         <router-link to="/products" class="nav-link">Produits</router-link>
         <router-link to="/history" class="nav-link">Histoire</router-link>
       </nav>
-      <router-link to="/"><Account size="22"/></router-link>
+      <router-link :to="userIsAuthenticated ? '/dashboard' : '/login'">
+        <Account size="22" />
+      </router-link>
     </div>
   </header>
 
@@ -90,14 +94,6 @@ defineProps({
 
   .bg-white .logo{
     color: var(--text)
-  }
-
-  .translate-y-0 {
-    transform: translateY(0);
-  }
-
-  .-translate-y-full {
-    transform: translateY(-100%);
   }
 
 </style>

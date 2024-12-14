@@ -1,13 +1,17 @@
 const express = require('express');
 const cors = require('cors');
 const { sequelize } = require('./models');
+
 const userRoutes = require('./routes/userRoutes');
-const categoryService = require('./services/productCategoryService');
 const productRoutes = require('./routes/productRoutes');
+const cartRoutes = require('./routes/cartRoutes');
+const categoryService = require('./services/productCategoryService');
+
 const path = require('path');
 
+
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || "3000";
 
 // Middlewares
 app.use(cors({
@@ -16,14 +20,16 @@ app.use(cors({
 }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); //protection dossier uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
 app.use('/', userRoutes);
 app.use('/', productRoutes);
+app.use('/', cartRoutes)
 
 async function startApp() {
     try {
+
 
         await sequelize.authenticate();
         console.log('Database connected');
