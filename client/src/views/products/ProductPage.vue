@@ -2,7 +2,6 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
-import AloAlo from "@/components/AloAlo.vue";
 import CardsHeartOutline from "vue-material-design-icons/CardsHeartOutline.vue";
 import ArrowLeftThinCircleOutline from "vue-material-design-icons/ArrowLeftThinCircleOutline.vue";
 
@@ -29,7 +28,8 @@ const fetchProduct = async () => {
   const productId = route.params.productId;
 
   if (isNaN(productId) || !productId) {
-    console.error("ID de produit invalide");
+    console.error("ID de produit invalide ou non défini :", productId);
+    message.value = "Impossible de charger ce produit.";
     return;
   }
 
@@ -38,9 +38,21 @@ const fetchProduct = async () => {
         `http://localhost:3000/products/${productId}`
     );
     product.value = response.data;
+
+    if (!product.value || !product.value.id) {
+      console.warn("Produit introuvable avec cet ID.");
+      message.value = "Produit introuvable.";
+    } else {
+      console.log("Produit chargé :", product.value);
+    }
   } catch (error) {
-    console.error("Erreur lors de la récupération du produit :", error);
+    console.error(
+        "Erreur lors de la récupération du produit depuis l'API :",
+        error.response?.data || error
+    );
     product.value = null;
+    message.value =
+        "Erreur réseau ou serveur. Impossible de charger le produit.";
   }
 };
 
@@ -49,63 +61,104 @@ const goBack = () => {
 };
 
 const addToCart = async () => {
+  // Message réinitialisé à chaque tentative
+  message.value = "";
+
   try {
+    // Étape 1 : Récupération sécurisée de l'utilisateur depuis localStorage
+    let user = null;
 
-    let user = JSON.parse(localStorage.getItem("user"));
+    try {
+      user = JSON.parse(localStorage.getItem("user"));
+    } catch (parsingError) {
+      console.warn("Problème lors de la lecture de l'utilisateur depuis localStorage.", parsingError);
+      user = null;
+    }
 
+    // Valeurs par défaut si aucun utilisateur n'est trouvé
     if (!user || !user.id) {
-      console.warn("Aucun utilisateur valide trouvé. Utilisation d'un utilisateur fictif.");
-
+      console.warn(
+          "Aucun utilisateur trouvé dans localStorage. Utilisation d'un utilisateur fictif."
+      );
       user = {
-        id: 1,
-        name: "Utilisateur Fictif",
+        id: 1, // Par exemple : utilisateur fictif connu
+        username: "Utilisateur Fictif",
         email: "fictif@utilisateur.com",
       };
     }
 
-    console.log("Utilisateur utilisé :", user);
+    console.log("Utilisateur actuel :", user);
 
+    // Étape 2 : Vérification du produit chargé et valide
     if (!product.value || !product.value.id) {
-      message.value = "Produit non valide ou non chargé. Veuillez réessayer plus tard.";
+      message.value = "Produit non valide. Veuillez réessayer plus tard.";
+      console.error("Le produit n'est pas chargé correctement ou son ID est manquant.");
       return;
     }
 
+    console.log("Produit actuel :", product.value);
+
+    // Étape 3 : Envoi de la requête API pour ajouter au panier
     const response = await axios.post("http://localhost:3000/cart/add", {
       userId: user.id,
       productId: product.value.id,
       quantity: 1,
     });
+
     const data = response.data;
 
+    // Vérifiez si l'ajout est réussi
     if (data && data.success) {
       message.value = "Produit ajouté au panier avec succès.";
+      console.log("Ajout au panier réussi :", data);
     } else {
-
-      message.value = `Erreur : ${data.message || "Impossible d'ajouter le produit."}`;
+      message.value =
+          data.message || "Erreur inconnue lors de l'ajout au panier.";
     }
   } catch (error) {
-    console.error("Erreur réseau ou backend :", error.response?.data || error);
-    message.value = "Une erreur s'est produite lors de l'ajout au panier. Veuillez réessayer.";
+    // Gestion des erreurs réseau/backend
+    console.error(
+        "Erreur lors de la tentative d'ajout au panier :",
+        error.response?.data || error
+    );
+    message.value =
+        "Une erreur s'est produite lors de l'ajout au panier. Veuillez réessayer.";
   }
 };
 
 const currentUser = ref(null);
 
 const fetchUser = async () => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  currentUser.value = null; // Réinitialisation
 
-  if (user && user.id) {
-    currentUser.value = user;
-    console.log("Utilisateur connecté :", currentUser.value);
-  } else {
-    console.warn("Aucun utilisateur connecté trouvé.");
-    currentUser.value = { id: 1, name: "Utilisateur Fictif" }; fallback
+  try {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user && user.id) {
+      currentUser.value = user;
+      console.log(
+          "Utilisateur actuellement connecté chargé depuis localStorage :",
+          currentUser.value
+      );
+    } else {
+      console.warn("Aucun utilisateur connecté n'a été trouvé.");
+    }
+  } catch (error) {
+    console.error(
+        "Erreur lors de la récupération de l’utilisateur depuis localStorage :",
+        error
+    );
+    currentUser.value = null;
   }
 };
 
-onMounted(() => {
-  fetchUser();
-  fetchProduct();
+onMounted(async () => {
+  await fetchUser();
+  await fetchProduct();
+
+  if (!product.value || !product.value.id) {
+    setTimeout(() => router.push("/products"), 2000);
+  }
 });
 </script>
 
@@ -135,7 +188,7 @@ onMounted(() => {
           @click="goBack"
           class="flex items-center mb-6 text-gray-700 hover:text-green-700 transition duration-300 font-semibold"
       >
-        <ArrowLeftThinCircleOutline class="mr-2 text-lg" />
+        <ArrowLeftThinCircleOutline class="mr-2 text-lg"/>
         Retour à la liste des produits
       </button>
 
@@ -171,7 +224,7 @@ onMounted(() => {
               Ajouter au panier
             </button>
             <div class="mt-2 flex items-center gap-2 text-green-600 cursor-pointer hover:text-green-800 transition">
-              <CardsHeartOutline class="text-xl" />
+              <CardsHeartOutline class="text-xl"/>
               <span>Ajouter à vos favoris</span>
             </div>
           </div>

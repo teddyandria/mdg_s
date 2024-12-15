@@ -86,7 +86,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    const isAuthenticated = !!localStorage.getItem("token"); // Vérifie si un token est présent
+    const isAuthenticated = !!localStorage.getItem("token");
 
     if (to.path === "/login" && isAuthenticated) {
         next("/already-connected");

@@ -8,20 +8,16 @@ import CartOutline from "vue-material-design-icons/CartOutline.vue";
 
 const userIsAuthenticated = ref(false);
 
-// Mettre à jour l'état d'authentification
 const updateAuthenticationStatus = () => {
   userIsAuthenticated.value = !!localStorage.getItem("token");
 };
 
-// Initialisation de l'état
 updateAuthenticationStatus();
 
-// Redirection dynamique vers la page de connexion ou tableau de bord
 const redirectPath = computed(() => {
   return userIsAuthenticated.value ? "/dashboard" : "/login";
 });
 
-// Props pour le composant (page d'accueil ou non, visibilité)
 defineProps({
   isHomePage: {
     type: Boolean,
@@ -33,21 +29,19 @@ defineProps({
   },
 });
 
-// Gestion du menu mobile
 const isMobileMenuOpen = ref(false);
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
 };
 
-// Fonction de déconnexion
 const router = useRouter();
 
 const logout = () => {
-  localStorage.removeItem("token"); // Supprime le token
-  updateAuthenticationStatus(); // Met à jour l'état réactif
-  router.push("/login"); // Redirige vers la page de connexion
-};
+  localStorage.removeItem("token");
+  updateAuthenticationStatus();
+  router.push("/login");
+}
 
 const route = useRoute();
 </script>
@@ -130,7 +124,6 @@ const route = useRoute();
           <Account size="22"/>
         </router-link>
 
-        <!-- Bouton de déconnexion (affiché uniquement si authentifié) -->
         <button
             v-if="userIsAuthenticated"
             @click="logout"
@@ -157,6 +150,12 @@ const route = useRoute();
           class="text-sm font-medium text-gray-700 hover:text-primary"
       >
         Produits
+      </router-link>
+      <router-link
+          to="/history"
+          class="text-sm font-medium text-gray-700 hover:text-primary"
+      >
+        History
       </router-link>
     </nav>
   </header>

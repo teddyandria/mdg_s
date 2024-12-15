@@ -53,12 +53,9 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  font-size: var(--text-size);
 }
 
 main {
-  font-size: 16px;
-  font-family: var(--font-family);
   flex: 1 0 auto;
   padding-top: 0;
 }

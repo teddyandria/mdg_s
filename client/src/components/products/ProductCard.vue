@@ -49,7 +49,7 @@ onMounted(() => {
         :key="index"
         :class="[
         'card-product flex flex-col  shadow-none rounded-none w-full overflow-hidden bg-mdgBg h-96',
-        index % 3 !== 0 ? 'border-l border-gray-300' : ''
+        index % 3 !== 0 ? 'border-none' : 'border-none'
       ]"
     >
       <img

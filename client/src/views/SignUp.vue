@@ -41,14 +41,15 @@ const handleSignUp = async () => {
 </script>
 
 <template>
-  <div class="flex h-screen">
-    <div class="flex flex-col justify-center items-center w-1/2 p-10 bg-mdgWhite font-poppins">
-      <h1 class="text-4xl font-regular mb-6">Créer un compte</h1>
+  <div class="flex h-screen font-poppins bg-mdgWhite">
+
+    <div class="flex flex-col justify-center items-center w-full p-6 md:w-1/2 md:p-10">
+      <h1 class="text-2xl md:text-4xl font-medium mb-6">Créer un compte</h1>
 
       <form
           @submit.prevent="handleSignUp"
-          class="space-y-6 w-full max-w-md">
-
+          class="space-y-6 w-full max-w-sm"
+      >
         <div v-if="error" class="text-red-500 text-center mb-2">{{ error }}</div>
         <div v-if="successMessage" class="text-green-500 text-center mb-2">{{ successMessage }}</div>
 
@@ -115,14 +116,14 @@ const handleSignUp = async () => {
         <div class="flex justify-center mt-6">
           <button
               type="submit"
-              class="flex justify-center items-center gap-2 border-2 border-black ext-mdgBlack py-2 px-6 rounded-full hover:bg-black hover:text-white transition duration-300"
+              class="flex justify-center items-center gap-2 border-2 border-black text-mdgBlack py-2 px-6 rounded-full hover:bg-black hover:text-white transition duration-300"
           >
             S'inscrire
             <span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10.293 15.707a1 1 0 010-1.414L13.586 11H4a1 1 0 110-2h9.586l-3.293-3.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-            </svg>
-          </span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10.293 15.707a1 1 0 010-1.414L13.586 11H4a1 1 0 110-2h9.586l-3.293-3.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+            </span>
           </button>
         </div>
 
@@ -140,18 +141,13 @@ const handleSignUp = async () => {
       </form>
     </div>
 
-    <div class="w-1/2 hidden lg:block relative bg-cover bg-center">
-
+    <div class="w-1/2 hidden md:block relative bg-cover bg-center">
       <div
           :style="{'background-image': `url(${require('../assets/images/madagascar-signup.jpg')})`}"
           class="absolute top-0 left-0 w-full h-full bg-cover bg-center"
       ></div>
-
-
       <div class="absolute top-0 left-0 w-full h-full bg-black opacity-10"></div>
-
-      <div class="relative z-10">
-      </div>
+      <div class="relative z-10"></div>
     </div>
   </div>
 </template>

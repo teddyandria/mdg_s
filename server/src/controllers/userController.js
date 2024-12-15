@@ -85,7 +85,37 @@ const userController = {
 
             res.status(500).json({ message: "Erreur interne du serveur." });
         }
+    },
+    fictitiousLogin: async (req, res) => {
+    try {
+        const fictitiousUserId = 1; // ID de l'utilisateur fictif
+        const fictitiousUser = await UserModel.findOne({ where: { id: fictitiousUserId } });
+
+        if (!fictitiousUser) {
+            return res.status(404).json({ message: "Utilisateur fictif introuvable." });
+        }
+
+        // Génération d'un token
+        const token = jwt.sign(
+            { id: fictitiousUser.id, email: fictitiousUser.email },
+            "yourSecretKey", // Remplacez par votre clé secrète
+            { expiresIn: "1h" }
+        );
+
+        res.status(200).json({
+            token,
+            user: {
+                id: fictitiousUser.id,
+                email: fictitiousUser.email,
+                username: fictitiousUser.username,
+                firstname: fictitiousUser.firstname,
+                lastname: fictitiousUser.lastname,
+            },
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
+}
 }
 
 module.exports = userController;

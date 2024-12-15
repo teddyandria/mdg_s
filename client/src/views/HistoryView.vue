@@ -61,31 +61,27 @@ onMounted(() => {
 <template>
   <div class="bg-mdgBg min-h-screen flex flex-col py-24" id="timeline">
     <h1 class="text-center text-4xl font-bold uppercase text-gray-800 mb-12">
-      Histoire Interactive de Madagascar
+      Découvrez l'histoire de Madagascar
     </h1>
 
-    <!-- Agrandissement de la largeur globale -->
-    <div class="relative overflow-hidden w-11/12 mx-auto lg:w-9/12 xl:w-8/12">
+    <div class="relative w-11/12 mx-auto lg:w-9/12 xl:w-8/12">
       <div class="absolute top-0 left-1/2 transform -translate-x-[1px] h-full border-l-2 border-gray-300"></div>
 
-      <!-- Timeline Items -->
       <div
           v-for="(event, index) in timeline"
           :key="index"
           class="timeline-item opacity-0 translate-y-10 transition-all duration-700 ease-out mb-20 mt-20"
       >
         <div
-            class="relative flex flex-col lg:flex-row items-center gap-8 mx-auto bg-gray-100 rounded-lg shadow-lg p-6 transform transition-all"
+            class="relative flex flex-col lg:flex-row items-center gap-8 mx-auto bg-mdgWhite rounded-lg shadow-md p-6 transform transition-all"
             :class="{ 'fade-from-left': index % 2 === 0, 'fade-from-right': index % 2 !== 0 }"
         >
-          <!-- Année en arrière-plan -->
           <div
-              class="text-6xl md:text-8xl font-extrabold text-mdgRed tracking-wider text-opacity-30 absolute top-[-20%] left-1/2 transform -translate-x-1/2 -z-10"
+              class="font-playFair text-6xl md:text-8xl font-extrabold text-mdgRed tracking-wider text-opacity-30 absolute top-[-20%] left-1/2 transform -translate-x-1/2 -z-10"
           >
             {{ event.year }}
           </div>
 
-          <!-- Image -->
           <div class="flex-shrink-0 w-full sm:w-64 lg:w-1/3">
             <img
                 :src="event.image"
@@ -94,12 +90,11 @@ onMounted(() => {
             />
           </div>
 
-          <!-- Texte -->
           <div class="flex-grow w-full lg:w-2/3 flex flex-col">
-            <h2 class="text-xl md:text-2xl font-bold text-gray-800">
+            <h2 class="text-lg md:text-xl font-semibold text-gray-800">
               {{ event.title }}
             </h2>
-            <p class="text-sm md:text-base text-gray-600 mt-2 leading-relaxed">
+            <p class="text-xs md:text-sm text-gray-600 mt-2 leading-relaxed">
               {{ event.description }}
             </p>
           </div>
