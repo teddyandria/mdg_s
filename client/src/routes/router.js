@@ -10,6 +10,7 @@ import AlreadyConnected from "@/views/AlreadyConnected.vue";
 import DashboardPage from "@/views/DashboardUserView.vue";
 import ProductCartUser from "@/views/products/ProductCartUser.vue";
 import OrderPage from "@/views/order/OrderPage.vue";
+import {requireNoAuth} from "@/guards/authGuard";
 const routes = [
     {
         path: '/',
@@ -37,6 +38,12 @@ const routes = [
         component: ProductPage,
     },
     {
+        path: "/products/:categoryName",
+        name: "ProductsByCategory",
+        component: Products,
+        props: true,
+    },
+    {
         path: '/signup',
         name: 'signup',
         component: SignUp,
@@ -44,13 +51,7 @@ const routes = [
     {
         path: '/login',
         name: 'login',
-        beforeEnter: (to, from, next) => {
-            if (localStorage.getItem("token")) {
-                next("/dashboard"); // Si un token existe, redirige l'utilisateur vers le dashboard
-            } else {
-                next();
-            }
-        },
+        beforeEnter: requireNoAuth,
         component: Login,
     },
     {
@@ -85,7 +86,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    const isAuthenticated = !!localStorage.getItem("token"); // Vérifie si un token est présent
+    const isAuthenticated = !!localStorage.getItem("token");
 
     if (to.path === "/login" && isAuthenticated) {
         next("/already-connected");

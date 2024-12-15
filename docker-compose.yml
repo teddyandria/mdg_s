@@ -5,6 +5,7 @@ services:
       - "3000:3000"
     volumes:
       - ./server/src:/app/src
+      - ./server/src/uploads:/app/src/uploads
     depends_on:
       - db
     environment:

@@ -1,19 +1,16 @@
+const fs = require('fs');
+const path = require('path');
 const productService = require('../services/productService');
-const ProductCategory = require('../models/ProductCategoryModel');
-const ProductModel = require("../models/ProductModel");
 
 const productController = {
-
     createProduct: async (req, res) => {
         try {
-            // Vérifier si des fichiers ont été envoyés
             if (!req.files || req.files.length === 0) {
                 return res.status(400).json({ error: 'Aucune photo téléchargée.' });
             }
             // Extraire les chemins et les noms des fichiers
             const photoNames = req.files.map(file => file.filename);
 
-            // Vérification des informations obligatoires dans le corps de la requête
             const { name, description, price, stock, categoryName } = req.body;
 
             if (!name || !description || !price || !stock || !categoryName) {
@@ -56,12 +53,36 @@ const productController = {
     deleteProduct: async (req, res) => {
         try {
             const { id } = req.params;
+
+            const product = await productService.findOneProduct(id);
+
+            if (!product) {
+                return res.status(404).json({ message: 'Produit non trouvé.' });
+            }
+
+            const photoPaths = product.photos.split(',');
+
+            photoPaths.forEach((photo) => {
+                const filePath = path.join(__dirname, '../uploads', photo);
+
+                fs.unlink(filePath, (err) => {
+                    if (err) {
+                        console.error(`Erreur lors de la suppression de l'image (${photo}):`, err);
+                    } else {
+                        console.log(`Image supprimée : ${photo}`);
+                    }
+                });
+            });
+
             await productService.deleteProduct(id);
-            res.status(200).json({ message: 'Produit supprimé avec succès.' });
+
+            res.status(200).json({ message: 'Produit et images associés supprimés avec succès.' });
         } catch (error) {
+            console.error('Erreur lors de la suppression du produit :', error);
             res.status(500).json({ error: error.message });
         }
     },
+
     getCategories: async (req, res) => {
         try {
             const categories = await productService.getCategories();

@@ -2,7 +2,8 @@
 import { onMounted, ref, watch } from "vue";
 import axios from "axios";
 import { Card } from "@/components/ui/card";
-import CardsHeartOutline from "vue-material-design-icons/CardsHeartOutline.vue";
+import ArrowRight from "vue-material-design-icons/ArrowRight.vue";
+
 
 const products = ref([]);
 
@@ -42,31 +43,32 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-fit">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full max-w-screen-lg mx-auto">
     <Card
         v-for="(product, index) in products"
         :key="index"
-        class="card-product w-80 shadow-lg rounded-s overflow-hidden mb-5"
+        :class="[
+        'card-product flex flex-col  shadow-none rounded-none w-full overflow-hidden bg-mdgBg h-96',
+        index % 3 !== 0 ? 'border-none' : 'border-none'
+      ]"
     >
       <img
-          :src="`http://localhost:3000/uploads/${product.photos.split(',')[0]}`"
+          :src="`http://localhost:3000${product.photos}`"
           alt="Product Image"
-          class="w-full h-48 object-cover"
+          class="m-auto h-48 object-cover"
       />
 
-      <div class="p-4 text-center">
-        <h3 class="text-md font-normal text-gray-800 font-raleway">{{ product.name }}</h3>
-        <p class="text-lg mt-2 font-bold font-playFair">{{ product.price }}€</p>
-      </div>
+      <div class="card-footer mt-auto p-4 flex items-center justify-between text-xs border-none">
+        <div>
+          <h3 class="text-base font-light text-gray-800 font-poppins">{{ product.name }}</h3>
+          <p class="text-base font-semibold">{{ product.price }}€</p>
+        </div>
 
-      <div class="card-footer p-4 flex items-center justify-between font-raleway text-xs">
-        <span class="text-gray-500 uppercase" v-if="product.category?.name">{{ product.category.name }}</span>
-        <CardsHeartOutline class="text-gray-300"/>
         <router-link
             :to="`/products/${product.id}`"
-            class="text-green-800 hover:text-green-600 text-xs font-semibold text-center"
+            class="text-mdgBlack hover:text-mdgSuccess font-semibold text-center"
         >
-          Voir le produit
+          <ArrowRight size="30"/>
         </router-link>
       </div>
     </Card>
@@ -75,10 +77,29 @@ onMounted(() => {
 
 <style scoped>
 .card-product {
-  background-color: var(--tertiary-color);
+  border-right: 1px solid #d1d5db;
+}
+.card-product:nth-child(3n) {
+  border-right: none;
 }
 
-.card-footer {
-  background-color: var(--card-color-bg);
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card-product:nth-child(2n) {
+    border-right: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-product {
+    border-right: none;
+  }
 }
 </style>

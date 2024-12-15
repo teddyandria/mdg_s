@@ -4,16 +4,6 @@
 
 @layer base {
     :root {
-        --background-color: #FFF8F5;
-        --text: #262626;
-        --primary-color: #D03B36;
-        --secondary-color: #447C3E;
-        --tertiary-color: #F9F1EE;
-        --card-color-bg: #FFF8F5;
-        --sous-infos: #9A9A9A;
-        --brown:#773320;
-        --font-text: "Raleway", sans-serif;
-        --font-title: "Playfair Display", serif;
         --text-size: 14px;
         --background: 0 0% 100%;
         --foreground: 222.2 84% 4.9%;

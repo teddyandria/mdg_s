@@ -55,7 +55,6 @@ validateOrder: async (userId, userName, userAddress) => {
             };
         });
 
-        // Création de la commande
         const newOrder = await Order.create({
             userId,
             userName,
@@ -65,7 +64,6 @@ validateOrder: async (userId, userName, userAddress) => {
             deliveryNoteGenerated: true,
         });
 
-        // Création des items de commande
         const orderItemsData = cartItems.map((item) => ({
             orderId: newOrder.id,
             productId: item.productId,
@@ -75,7 +73,6 @@ validateOrder: async (userId, userName, userAddress) => {
         }));
         await OrderItem.bulkCreate(orderItemsData);
 
-        // Vider le panier
         await CartProductModel.destroy({ where: { cartId: cart.id } });
 
         return {

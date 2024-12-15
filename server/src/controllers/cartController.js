@@ -15,7 +15,7 @@ const cartController = {
     getUserCart: async (req, res) => {
         try {
             const userId = req.params.userId;
-            console.log(`ID utilisateur reçu : ${userId}`); // Log de vérification
+            console.log(`ID utilisateur reçu : ${userId}`);
             if (!userId) {
                 return res.status(400).json({ error: "L'ID de l'utilisateur est requis." });
             }

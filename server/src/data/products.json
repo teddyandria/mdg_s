@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "name": "Tissu en coton bio",
+    "description": "Tissu en coton bio, idéal pour des créations artisanales de haute qualité.",
+    "price": 12.99,
+    "stock": 50,
+    "photos": "/uploads/tissu_coton.jpg",
+    "categoryId": 1
+  },
+  {
+    "id": 2,
+    "name": "Écharpe en soie",
+    "description": "Écharpe légère et élégante en soie naturelle.",
+    "price": 29.99,
+    "stock": 30,
+    "photos": "/uploads/echarpe_soie.png",
+    "categoryId": 1
+  },
+  {
+    "id": 3,
+    "name": "Tissu imprimé carrelé",
+    "description": "Tissu avec imprimé tendance pour l'ameublement ou couture.",
+    "price": 18.50,
+    "stock": 40,
+    "photos": "/uploads/tissu_imprime_carrele.jpg",
+    "categoryId": 1
+  },
+  {
+    "id": 4,
+    "name": "Nappe en lin naturel",
+    "description": "Une nappe durable fabriquée en lin naturel de qualité supérieure.",
+    "price": 35.00,
+    "stock": 20,
+    "photos": "/uploads/nappe_lin.png",
+    "categoryId": 1
+  },
+  {
+    "id": 5,
+    "name": "Chapeau en tissu léger",
+    "description": "Un chapeau parfait pour l’été, réalisé en tissu léger.",
+    "price": 15.99,
+    "stock": 25,
+    "photos": "/uploads/chapeau_tissu.jpeg",
+    "categoryId": 1
+  },
+  {
+    "id": 6,
+    "name": "Boîte en bois sculptée",
+    "description": "Boîte décorative en bois sculpté à la main.",
+    "price": 20.00,
+    "stock": 15,
+    "photos": "/uploads/boite_bois.png",
+    "categoryId": 2
+  },
+  {
+    "id": 7,
+    "name": "Plateau en bois artisanal",
+    "description": "Plateau en bois fabriqué artisanalement, idéal pour servir.",
+    "price": 25.00,
+    "stock": 10,
+    "photos": "/uploads/plateau_bois.png",
+    "categoryId": 2
+  },
+  {
+    "id": 8,
+    "name": "Sculpture décorative en bois",
+    "description": "Sculpture unique en bois pour la décoration intérieure.",
+    "price": 40.00,
+    "stock": 5,
+    "photos": "/uploads/sculpture_bois.png",
+    "categoryId": 2
+  },
+  {
+    "id": 9,
+    "name": "Porte-clés en bois",
+    "description": "Porte-clés écologique fabriqué en bois recyclé.",
+    "price": 8.99,
+    "stock": 100,
+    "photos": "/uploads/porte_cles_bois.png",
+    "categoryId": 2
+  },
+  {
+    "id": 10,
+    "name": "Planche à découper en bois",
+    "description": "Planche à découper durable et esthétique fabriquée avec du bois naturel.",
+    "price": 30.00,
+    "stock": 35,
+    "photos": "/uploads/planche_decouper.png",
+    "categoryId": 2
+  },
+  {
+    "id": 11,
+    "name": "Ceinture en cuir et tissu",
+    "description": "Ceinture élégante fabriquée à partir de cuir et tissu de qualité.",
+    "price": 45.00,
+    "stock": 20,
+    "photos": "/uploads/ceinture_cuir_tissu.jpg",
+    "categoryId": 3
+  },
+  {
+    "id": 12,
+    "name": "Épingle à cravate en bois",
+    "description": "Épingle à cravate élégante fabriquée avec une finition en bois.",
+    "price": 15.00,
+    "stock": 25,
+    "photos": "/uploads/vangovango.png",
+    "categoryId": 3
+  },
+  {
+    "id": 13,
+    "name": "Sacs en toile simples",
+    "description": "Un lot de 3 sacs en toile réutilisables pour le quotidien.",
+    "price": 12.50,
+    "stock": 50,
+    "photos": "/uploads/sacs_toile.png",
+    "categoryId": 3
+  },
+  {
+    "id": 14,
+    "name": "Broche artisanale en métal",
+    "description": "Broche élégante fabriquée à la main.",
+    "price": 22.00,
+    "stock": 10,
+    "photos": "/uploads/broche_artisanale.png",
+    "categoryId": 3
+  },
+  {
+    "id": 15,
+    "name": "Portefeuille minimaliste en toile",
+    "description": "Portefeuille pratique et écologique en toile résistante.",
+    "price": 30.00,
+    "stock": 15,
+    "photos": "/uploads/portefeuille_toile.png",
+    "categoryId": 3
+  },
+  {
+    "id": 16,
+    "name": "Savon naturel à la lavande",
+    "description": "Savon fabriqué à base d’huiles naturelles et infusé à la lavande.",
+    "price": 5.99,
+    "stock": 200,
+    "photos": "/uploads/savon_naturel.png",
+    "categoryId": 4
+  },
+  {
+    "id": 17,
+    "name": "Huile essentielle de menthe poivrée",
+    "description": "Huile essentielle 100% pure et bio, idéale pour l’aromathérapie.",
+    "price": 12.00,
+    "stock": 50,
+    "photos": "/uploads/huile_menthe_poivree.png",
+    "categoryId": 4
+  },
+  {
+    "id": 18,
+    "name": "Coussin chauffant artisanal",
+    "description": "Coussin chauffant fabriqué avec des grains naturels, parfait pour le bien-être.",
+    "price": 25.00,
+    "stock": 10,
+    "photos": "/uploads/coussin_chauffant.png",
+    "categoryId": 4
+  },
+  {
+    "id": 19,
+    "name": "Kit de relaxation avec bougies",
+    "description": "Kit comprenant bougies naturelles fabriquées à la main.",
+    "price": 15.00,
+    "stock": 30,
+    "photos": "/uploads/kit_relaxation.jpg",
+    "categoryId": 4
+  },
+  {
+    "id": 20,
+    "name": "Thé apaisant aux plantes",
+    "description": "Un mélange apaisant 100% naturel pour des moments de détente.",
+    "price": 10.00,
+    "stock": 40,
+    "photos": "/uploads/the_apaisant.png",
+    "categoryId": 4
+  }
+]

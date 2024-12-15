@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../config/db"); // Connexion à la base de données
+const sequelize = require("../config/db.config"); // Connexion à la base de données
 
 const OrderItem = sequelize.define("OrderItem", {
     id: {

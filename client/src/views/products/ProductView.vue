@@ -31,24 +31,31 @@ const selectCategory = async (category) => {
   await fetchProductsByCategory(category);
 };
 
+
 onMounted(() => {
   fetchCategories();
 });
 </script>
 
 <template>
-  <div class="container py-14 flex items-center flex-col">
-    <div class="categories flex justify-evenly font-raleway text-sm mb-10 mt-5 w-3/5">
+  <div class="container py-24 flex items-center flex-col font-poppins">
+    <div class="categories flex justify-center text-sm mb-10 mt-5 w-3/5 items-center">
       <div
-          v-for="category in categories"
+          v-for="(category, index) in categories"
           :key="category.id"
+          class="flex items-center"
       >
         <button
-            class="font-medium focus:underline"
+            class="font-regular focus:underline hover:opacity-70 transition px-4"
             @click="selectCategory(category)"
         >
           {{ category.name }}
         </button>
+        <div
+            v-if="index < categories.length - 1"
+            class="h-5 w-[1px] bg-gray-900"
+            style="align-self: center;"
+        ></div>
       </div>
     </div>
     <div v-if="selectedCategory && !products.length">Aucun produit trouvé dans cette catégorie</div>
@@ -56,6 +63,7 @@ onMounted(() => {
         :is-home="false"
         :category="selectedCategory"
         :products="products"
+        class="gap-5"
     />
   </div>
 </template>
