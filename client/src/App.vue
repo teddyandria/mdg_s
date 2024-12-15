@@ -58,6 +58,7 @@ onUnmounted(() => {
 
 main {
   font-size: 16px;
+  font-family: var(--font-family);
   flex: 1 0 auto;
   padding-top: 0;
 }

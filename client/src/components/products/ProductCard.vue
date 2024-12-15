@@ -43,13 +43,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-fit">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full max-w-screen-lg mx-auto">
     <Card
         v-for="(product, index) in products"
         :key="index"
         :class="[
         'card-product flex flex-col  shadow-none rounded-none w-full overflow-hidden bg-mdgBg h-96',
-        index % 3 !== 0 ? 'border-l border-gray-300' : '', isHome ? 'border-none' : 'mb-5'
+        index % 3 !== 0 ? 'border-l border-gray-300' : ''
       ]"
     >
       <img
@@ -85,21 +85,21 @@ onMounted(() => {
 
 @media (max-width: 768px) {
   .product-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 colonnes en tablette */
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .card-product:nth-child(2n) {
-    border-right: none; /* Suppression pour la dernière colonne de 2 colonnes */
+    border-right: none;
   }
 }
 
 @media (max-width: 480px) {
   .product-grid {
-    grid-template-columns: 1fr; /* 1 seule colonne sur mobile */
+    grid-template-columns: 1fr;
   }
 
   .card-product {
-    border-right: none; /* Pas de bordure pour 1 seule colonne */
+    border-right: none;
   }
 }
 </style>

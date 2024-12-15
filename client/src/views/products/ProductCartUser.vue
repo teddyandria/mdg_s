@@ -1,54 +1,70 @@
 <template>
-  <div class="container mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-6">Mon Panier</h1>
+  <div class="container mx-auto my-24 bg-mdgBg min-h-screen rounded-lg shadow-lg">
+    <h1 class="text-3xl font-medium mb-8 text-center text-mdgBlack">Mon Panier</h1>
 
-    <div v-if="loading" class="text-gray-700 text-center">Chargement de votre panier...</div>
+    <div v-if="loading" class="text-gray-600 text-center text-lg animate-pulse">Chargement de votre panier...</div>
 
     <div v-else-if="!cartItems.length && !loading" class="text-center">
-      <p class="text-gray-600 text-lg">Votre panier est vide.</p>
-      <router-link to="/products" class="text-green-500 hover:underline mt-4 inline-block">
+      <p class="text-gray-600 text-lg font-medium">Votre panier est vide.</p>
+      <router-link
+          to="/products"
+          class="text-black border border-black hover:bg-black hover:text-white transition duration-300 mt-6 inline-block py-2 px-6 rounded-lg"
+      >
         Voir les produits
       </router-link>
     </div>
 
     <div v-else>
-      <div v-for="item in cartItems" :key="item.id" class="flex items-center border-b border-gray-300 pb-4 mb-4">
-        <img
-            :src="`http://localhost:3000/uploads/${item.photos.split(',')[0]}`"
-            alt="Produit"
-            class="w-24 h-24 object-cover mr-4"
-        />
-
-        <div class="flex-1">
-          <h2 class="text-lg font-semibold">{{ item.name }}</h2>
-          <span class="block mt-2 text-green-600 font-bold">{{ item.price }}€</span>
-
-          <div class="mt-4">
-            <label for="quantity" class="text-sm text-gray-600">Quantité :</label>
-            <input
-                id="quantity"
-                type="number"
-                :value="item.quantity"
-                @change="updateCart(item.id, $event.target.value)"
-                min="1"
-                class="ml-2 w-16 bg-gray-50 border border-gray-300 rounded text-center p-1"
+      <div class="grid gap-4 sm:gap-6 lg:gap-8">
+        <div
+            v-for="item in cartItems"
+            :key="item.id"
+            class="flex items-center justify-between bg-white rounded-lg shadow-md p-4"
+        >
+          <div class="flex items-center space-x-4">
+            <img
+                :src="`http://localhost:3000${item.photos}`"
+                alt="Produit"
+                class="w-24 h-24 object-cover rounded-md border border-gray-200"
             />
+
+            <div>
+              <h2 class="text-lg font-semibold text-gray-800">{{ item.name }}</h2>
+              <span class="block mt-2 text-green-600 font-bold text-lg">{{ formatPrice(item.price) }}</span>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <div>
+              <label for="quantity" class="text-sm text-gray-600">Quantité :</label>
+              <input
+                  id="quantity"
+                  type="number"
+                  :value="item.quantity"
+                  @change="updateCart(item.id, $event.target.value)"
+                  min="1"
+                  class="ml-2 w-16 bg-gray-50 border border-gray-300 rounded-lg text-center p-1 focus:outline-none focus:ring-1 focus:ring-black"
+              />
+            </div>
+            <button
+                @click="removeFromCart(item.id)"
+                class="border border-black text-black px-4 py-2 rounded-lg hover:bg-black hover:text-white transition duration-300"
+            >
+              Supprimer
+            </button>
           </div>
         </div>
-
-        <button
-            @click="removeFromCart(item.id)"
-            class="text-red-500 hover:underline px-4"
-        >
-          Supprimer
-        </button>
       </div>
 
-      <div class="flex justify-end items-center mt-8">
-        <span class="text-xl font-semibold">Total : <span class="text-green-600">{{ totalPrice }}€</span></span>
+      <div class="mt-10 border-t border-gray-200 pt-6">
+        <div class="flex justify-between items-center mb-6">
+          <span class="text-2xl font-semibold text-gray-800">Total :</span>
+          <span class="text-2xl font-bold text-green-600">{{ formatPrice(totalPrice) }}</span>
+        </div>
         <router-link
             to="/order"
-            class="w-full py-2 px-4 text-center text-white bg-green-500 rounded-lg hover:bg-green-600 transition duration-300">
+            class="block text-center py-3 px-6 text-black border border-black rounded-lg hover:bg-black hover:text-white transition duration-300"
+        >
           Passer à la commande
         </router-link>
       </div>
@@ -93,7 +109,10 @@ const updateCart = async (productId, newQuantity) => {
       quantity: parseInt(newQuantity),
     });
     if (response.status === 200) {
-      await fetchCart();
+      const updatedItemIndex = cartItems.value.findIndex((item) => item.id === productId);
+      if (updatedItemIndex !== -1) {
+        cartItems.value[updatedItemIndex].quantity = parseInt(newQuantity);
+      }
     }
   } catch (error) {
     console.error("Erreur lors de la mise à jour de la quantité du panier :", error);
@@ -104,11 +123,15 @@ const removeFromCart = async (productId) => {
   try {
     const response = await axios.delete(`http://localhost:3000/cart/${userId}/product/${productId}`);
     if (response.status === 200) {
-      await fetchCart(); // Recharge le panier pour refléter les changements
+      cartItems.value = cartItems.value.filter((item) => item.id !== productId);
     }
   } catch (error) {
     console.error("Erreur lors de la suppression d'un produit :", error);
   }
+};
+
+const formatPrice = (price) => {
+  return `${price.toFixed(2)}€`;
 };
 
 onMounted(() => {
@@ -117,4 +140,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.container {
+  max-width: 900px;
+}
 </style>

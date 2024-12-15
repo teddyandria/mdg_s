@@ -56,14 +56,12 @@ const productController = {
         try {
             const { id } = req.params;
 
-            // Étape 1 : Récupérer le produit à supprimer
             const product = await productService.findOneProduct(id);
 
             if (!product) {
                 return res.status(404).json({ message: 'Produit non trouvé.' });
             }
 
-            // Étape 2 : Supprimer les fichiers associés au produit
             const photoPaths = product.photos.split(',');
 
             photoPaths.forEach((photo) => {

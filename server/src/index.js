@@ -10,7 +10,7 @@ const orderRoutes = require('./routes/orderRoutes');
 const categoryService = require('./services/productCategoryService');
 const fs = require('fs');
 const path = require('path');
-
+const initializeFictitiousUser = require('./data/userFictif');
 
 const app = express();
 const PORT = process.env.PORT || "3000";
@@ -83,6 +83,7 @@ async function startApp() {
         await sequelize.sync({ alter: true });
         console.log('Database synchronized');
 
+        await initializeFictitiousUser()
         await initializeProducts();
         await categoryService.initializeCategories();
 

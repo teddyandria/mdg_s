@@ -5,13 +5,21 @@ import MyLogo from "@/components/MyLogo.vue";
 <template>
   <footer class="h-screen relative flex flex-col justify-end font-poppins">
 
-    <div class="relative flex flex-col justify-around h-[70%] w-full text-center items-center bg-secondary text-white px-6">
-
-      <div class="absolute inset-0 bg-mdgSuccess bg-opacity-40"></div>
+    <div
+        class="relative flex flex-col justify-around h-[70%] w-full text-center items-center text-white px-6"
+        :style="{
+    backgroundImage: `url(${require('../assets/images/footer.jpeg')})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundBlendMode: 'overlay'
+  }"
+    >
+      <div class="absolute inset-0 bg-black bg-opacity-50"></div>
 
       <div class="relative flex flex-col justify-around h-full w-full items-center">
         <div class="flex flex-col justify-center items-center space-y-4">
-          <MyLogo />
+          <MyLogo :isDarkBackground="true" />
           <h1 class="text-xl sm:text-2xl md:text-4xl font-bold tracking-widest uppercase text-white">
             Restez Connectés
           </h1>
@@ -43,6 +51,7 @@ import MyLogo from "@/components/MyLogo.vue";
           <ul class="space-y-2">
             <li><router-link to="/" class="hover:text-tertiary transition">Accueil</router-link></li>
             <li><router-link to="/products" class="hover:text-tertiary transition">Produits</router-link></li>
+            <li><router-link to="/login" class="hover:text-tertiary transition">Se connecter</router-link></li>
           </ul>
         </div>
 

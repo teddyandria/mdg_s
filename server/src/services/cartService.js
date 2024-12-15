@@ -1,10 +1,19 @@
 const CartModel = require('../models/CartModel');
 const ProductModel = require('../models/ProductModel');
 const CartProductModel = require('../models/CartProductModel');
+const UserModel = require('../models/UserModel');
 
 const cartService = {
     addToCart: async (userId, productId, quantity) => {
         try {
+            const userExists = await UserModel.findOne({ where: { id: userId } });
+            if (!userExists) {
+                return {
+                    success: false,
+                    message: `L'utilisateur avec l'id ${userId} n'existe pas dans la base de données.`
+                };
+            }
+
             let cart = await CartModel.findOne({
                 where: { userId }
             });
@@ -30,6 +39,7 @@ const cartService = {
             }
 
             return {
+                success: true,
                 message: 'Produit ajouté au panier avec succès.',
             };
         } catch (error) {
@@ -61,7 +71,7 @@ const cartService = {
                 name: cartProduct.Product.name,
                 price: cartProduct.Product.price,
                 photos: cartProduct.Product.photos,
-                quantity: cartProduct.quantity, // Quantité issue de CartProductModel
+                quantity: cartProduct.quantity,
             }));
         } catch (error) {
             console.error('Erreur lors de la récupération des articles du panier :', error);
@@ -114,7 +124,6 @@ const cartService = {
                 throw new Error("Ce produit n'existe pas dans le panier.");
             }
 
-            // Met à jour la quantité demandée
             cartProduct.quantity = newQuantity;
             await cartProduct.save();
 

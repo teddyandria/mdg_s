@@ -10,8 +10,8 @@ import boisImage from "../assets/images/sculpturebois.jpg";
 import accessoiresImage from "@/assets/images/bijoux.jpg";
 import bienEtreImage from "@/assets/images/huile.jpg";
 
-const categories = ref([]); // Les catégories disponibles
-const router = useRouter(); // Importer l'instance du routeur
+const categories = ref([]);
+const router = useRouter();
 const categoryImages = {
   "Textiles & Tissus": textilesImage,
   "Objets en bois": boisImage,
@@ -108,10 +108,10 @@ onMounted(fetchCategories);
             v-if="categories.length"
             @click="redirectToCategoryPage(categories[0])"
             :style="{
-          backgroundImage: `url(${categories[0].imageUrl})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          objectFit: 'cover',
+              backgroundImage: `url(${categories[0].imageUrl})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              objectFit: 'cover',
         }"
             class="row-span-1 col-span-3 bg-gray-100 p-6 text-center cursor-pointer relative flex items-center justify-center h-full"
         >
@@ -122,7 +122,6 @@ onMounted(fetchCategories);
           </div>
         </div>
 
-        <!-- Autres catégories (sur la moitié inférieure) -->
         <div
             v-for="(category, index) in categories.slice(1, 4)"
             :key="category.id"

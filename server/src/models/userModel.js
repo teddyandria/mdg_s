@@ -35,11 +35,19 @@ const UserModel = sequelize.define('User', {
             }
         },
     },
+    defaultScope: {
+        attributes: { exclude: ['password'] },
+    },
+    scopes: {
+        withPassword: {
+            attributes: { include: ['password'] },
+        },
+    },
 });
-// UserModel.prototype.validatePassword = async function (password) {
-//     if (!this.password) {
-//         throw new Error("Le mot de passe hashé est introuvable.");
-//     }
-//     return await bcrypt.compare(password, this.password);
-// }
+UserModel.prototype.validatePassword = async function (password) {
+    if (!this.password) {
+        throw new Error("Le mot de passe hashé est introuvable.");
+    }
+    return await bcrypt.compare(password, this.password);
+};
 module.exports = UserModel;

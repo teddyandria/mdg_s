@@ -10,6 +10,7 @@ import AlreadyConnected from "@/views/AlreadyConnected.vue";
 import DashboardPage from "@/views/DashboardUserView.vue";
 import ProductCartUser from "@/views/products/ProductCartUser.vue";
 import OrderPage from "@/views/order/OrderPage.vue";
+import {requireNoAuth} from "@/guards/authGuard";
 const routes = [
     {
         path: '/',
@@ -50,13 +51,7 @@ const routes = [
     {
         path: '/login',
         name: 'login',
-        beforeEnter: (to, from, next) => {
-            if (localStorage.getItem("token")) {
-                next("/dashboard"); // Si un token existe, redirige l'utilisateur vers le dashboard
-            } else {
-                next();
-            }
-        },
+        beforeEnter: requireNoAuth,
         component: Login,
     },
     {
