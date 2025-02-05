@@ -1,9 +1,17 @@
-// models/userModel.js
+// models/UserModel.entity.js
 const bcrypt = require('bcrypt');
-const { DataTypes } = require('sequelize');
+const { DataTypes, Model} = require('sequelize');
 const sequelize = require('../config/db.config');
 
-const UserModel = sequelize.define('User', {
+class UserModelEntity extends Model {
+    //username
+    //email
+    //password
+    //firstname
+    //lastname
+}
+
+UserModelEntity.init({
     username: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -27,6 +35,8 @@ const UserModel = sequelize.define('User', {
         allowNull: false,
     },
 }, {
+    sequelize,
+    tableName: 'Users',
     hooks: {
         beforeCreate: async (user) => {
             if (user.password) {
@@ -43,11 +53,13 @@ const UserModel = sequelize.define('User', {
             attributes: { include: ['password'] },
         },
     },
+
 });
-UserModel.prototype.validatePassword = async function (password) {
+UserModelEntity.prototype.validatePassword = async function (password) {
     if (!this.password) {
         throw new Error("Le mot de passe hashé est introuvable.");
     }
+    console.log(await bcrypt.compare(password, this.password))
     return await bcrypt.compare(password, this.password);
 };
-module.exports = UserModel;
+module.exports = UserModelEntity;

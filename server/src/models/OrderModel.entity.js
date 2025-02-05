@@ -1,8 +1,11 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes, Model} = require("sequelize");
 const sequelize = require("../config/db.config");
-const OrderItem = require("../models/OrderItemModel");
+const OrderItem = require("./OrderItemModel.entity");
+//const {sequelize} = require("./index");
 
-const Order = sequelize.define("Order", {
+class OrderEntity extends Model {}
+
+OrderEntity.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -42,9 +45,12 @@ const Order = sequelize.define("Order", {
         allowNull: false,
         defaultValue: DataTypes.NOW,
     },
+},{
+    sequelize,
+    tableName: "Order",
 });
 
-Order.hasMany(OrderItem, { foreignKey: "orderId", as: "items" });
-OrderItem.belongsTo(Order, { foreignKey: "orderId" });
+OrderEntity.hasMany(OrderItem, { foreignKey: "orderId", as: "items" });
+OrderItem.belongsTo(OrderEntity, { foreignKey: "orderId" });
 
-module.exports = Order;
+module.exports = OrderEntity;

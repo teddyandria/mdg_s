@@ -1,7 +1,9 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes, Model} = require('sequelize');
 const sequelize = require('../config/db.config');
 
-const ProductCategory = sequelize.define('ProductCategory', {
+class ProductCategoryEntity extends Model {}
+
+ProductCategoryEntity.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -13,8 +15,9 @@ const ProductCategory = sequelize.define('ProductCategory', {
         unique: true,
     }
 }, {
+    sequelize,
     tableName: 'ProductCategories',
     timestamps: false,
 })
 
-module.exports = ProductCategory
+module.exports = ProductCategoryEntity

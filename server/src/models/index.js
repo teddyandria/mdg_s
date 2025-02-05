@@ -1,15 +1,19 @@
 const sequelize = require('../config/db.config');
-const User = require('./userModel');
-const Product = require('./ProductModel');
-const ProductCategory = require('./ProductCategoryModel');
-const CartModel = require('./cartModel');
-const CartProductModel = require('./cartProductModel');
+const UserModelEntity = require('./UserModel.entity');
+const Product = require('./ProductModel.entity');
+const ProductCategory = require('./ProductCategoryModel.entity');
+const CartModel = require('./CartModel.entity');
+const CartProductModel = require('./CartProductModel.entity');
 
-
+// UserModelEntity.init({}, { sequelize });
+// Product.init({}, { sequelize });
+// ProductCategory.init({}, { sequelize });
+// CartModel.init({}, { sequelize });
+// CartProductModel.init({}, { sequelize });
 
 module.exports = {
     sequelize,
-    User,
+    UserModelEntity,
     Product,
     ProductCategory,
     CartModel,

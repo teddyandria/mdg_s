@@ -1,7 +1,7 @@
-const CartModel = require('../models/CartModel');
-const ProductModel = require('../models/ProductModel');
-const CartProductModel = require('../models/CartProductModel');
-const UserModel = require('../models/UserModel');
+const CartModel = require('../models/CartModel.entity');
+const ProductModel = require('../models/ProductModel.entity');
+const CartProductModel = require('../models/CartProductModel.entity');
+const UserModel = require('../models/UserModel.entity');
 
 const cartService = {
     addToCart: async (userId, productId, quantity) => {
@@ -66,12 +66,12 @@ const cartService = {
                 return { message: 'Aucun panier trouvé.' };
             }
 
-            return cart.CartProducts.map((cartProduct) => ({
-                id: cartProduct.Product.id,
-                name: cartProduct.Product.name,
-                price: cartProduct.Product.price,
-                photos: cartProduct.Product.photos,
-                quantity: cartProduct.quantity,
+            return cart.dataValues.CartProductModelEntities.map((cartProduct) => ({
+                id: cartProduct.dataValues.ProductModelEntity.dataValues.id,
+                name: cartProduct.dataValues.ProductModelEntity.dataValues.name,
+                price: cartProduct.dataValues.ProductModelEntity.dataValues.price,
+                photos: cartProduct.dataValues.ProductModelEntity.dataValues.photos,
+                quantity: cartProduct.dataValues.ProductModelEntity.dataValues.quantity,
             }));
         } catch (error) {
             console.error('Erreur lors de la récupération des articles du panier :', error);

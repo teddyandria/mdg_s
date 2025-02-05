@@ -1,8 +1,9 @@
-const { User } = require('../models');
+const User = require('../models/UserModel.entity');
 const bcrypt = require("bcrypt");
 
 const userService = {
     create: async (data) => {
+
         try {
             const user = await User.create(data);
             return { success: true, user };

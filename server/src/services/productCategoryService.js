@@ -1,5 +1,5 @@
 // services/categoryService.js
-const { ProductCategory } = require('../models');
+const { ProductCategory } = require('../models/ProductCategoryModel.entity');
 
 const categoryService = {
     initializeCategories: async () => {

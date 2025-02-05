@@ -11,6 +11,7 @@ const userController = {
             }
 
             const newUser = await userService.create({ username, email, password, lastname, firstname });
+            console.log(newUser);
             res.status(200).json(newUser);
 
         } catch (e) {
@@ -89,7 +90,7 @@ const userController = {
     fictitiousLogin: async (req, res) => {
     try {
         const fictitiousUserId = 1; // ID de l'utilisateur fictif
-        const fictitiousUser = await UserModel.findOne({ where: { id: fictitiousUserId } });
+        const fictitiousUser = await userService.findOne({ where: { id: fictitiousUserId } });
 
         if (!fictitiousUser) {
             return res.status(404).json({ message: "Utilisateur fictif introuvable." });

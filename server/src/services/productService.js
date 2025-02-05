@@ -1,5 +1,5 @@
-const ProductModel = require('../models/ProductModel');
-const ProductCategoryModel = require('../models/ProductCategoryModel');
+const ProductModel = require('../models/ProductModel.entity');
+const ProductCategoryModel = require('../models/ProductCategoryModel.entity');
 
 const productService = {
 

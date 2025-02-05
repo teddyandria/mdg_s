@@ -1,8 +1,10 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/db.config');
-const ProductCategory = require('../models/ProductCategoryModel');
+const ProductCategory = require('./ProductCategoryModel.entity');
 
-const ProductModel = sequelize.define('Product', {
+class ProductModelEntity extends Model {}
+
+ProductModelEntity.init({
     name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -31,9 +33,13 @@ const ProductModel = sequelize.define('Product', {
             key: 'id',
         },
     },
-})
+}, {
+    sequelize,
+    tableName: 'Products',
+});
 
-ProductModel.belongsTo(ProductCategory, { foreignKey: 'categoryId', as: 'category' });
-ProductCategory.hasMany(ProductModel, { foreignKey: 'categoryId', as: 'products' });
+// Relations
+ProductModelEntity.belongsTo(ProductCategory, { foreignKey: 'categoryId', as: 'category' });
+ProductCategory.hasMany(ProductModelEntity, { foreignKey: 'categoryId', as: 'products' });
 
-module.exports = ProductModel
+module.exports = ProductModelEntity;

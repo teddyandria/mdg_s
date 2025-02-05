@@ -11,7 +11,7 @@ services:
     environment:
       - NODE_ENV=development
     env_file:
-      - ./env/server.env
+      - ./env/db.env
   client:
     build: ./client
     volumes:
@@ -19,7 +19,7 @@ services:
     ports:
       - "8080:8080"
   db:
-    container_name: postgresql
+    #container_name: postgresql
     image: postgres
     env_file:
       - ./env/db.env

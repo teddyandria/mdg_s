@@ -10,7 +10,7 @@ const orderRoutes = require('./routes/orderRoutes');
 const categoryService = require('./services/productCategoryService');
 const fs = require('fs');
 const path = require('path');
-const initializeFictitiousUser = require('./data/userFictif');
+//const initializeFictitiousUser = require('./data/userFictif');
 
 const app = express();
 const PORT = process.env.PORT || "3000";
@@ -75,6 +75,8 @@ async function initializeProducts() {
 }
 
 async function startApp() {
+    const {POSTGRES_USER,POSTGRES_PASSWORD, POSTGRES_DB, DB_HOST, DB_PORT} = process.env
+    console.log(`postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${DB_HOST}:${DB_PORT}/${POSTGRES_DB}`)
     try {
 
         await sequelize.authenticate();
@@ -83,7 +85,7 @@ async function startApp() {
         await sequelize.sync({ alter: true });
         console.log('Database synchronized');
 
-        await initializeFictitiousUser()
+        //await initializeFictitiousUser()
         await initializeProducts();
         await categoryService.initializeCategories();
 
@@ -96,4 +98,10 @@ async function startApp() {
     }
 }
 
-startApp();
+(async () => {
+    try {
+        await startApp();
+    } catch (error) {
+        console.error('Une erreur est survenue lors du démarrage de l\'application :', error);
+    }
+})();

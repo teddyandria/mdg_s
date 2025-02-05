@@ -1,4 +1,4 @@
-const UserModel = require('../models/userModel');
+const UserModel = require('../models/UserModel.entity');
 const bcrypt = require('bcrypt');
 
 const initializeFictitiousUser = async () => {

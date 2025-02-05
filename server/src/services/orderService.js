@@ -1,8 +1,8 @@
-const Order = require("../models/OrderModel");
-const OrderItem = require("../models/OrderItemModel");
-const CartModel = require("../models/CartModel");
-const CartProductModel = require("../models/CartProductModel");
-const ProductModel = require("../models/ProductModel");
+const Order = require("../models/OrderModel.entity");
+const OrderItem = require("../models/OrderItemModel.entity");
+const CartModel = require("../models/CartModel.entity");
+const CartProductModel = require("../models/CartProductModel.entity");
+const ProductModel = require("../models/ProductModel.entity");
 
 const orderService = {
 
@@ -37,19 +37,18 @@ validateOrder: async (userId, userName, userAddress) => {
                 quantity: item.quantity,
             });
 
-            const price = parseFloat(item.Product?.price) || parseFloat(item.price) || 0;
-            const quantity = parseInt(item.quantity) || 0;
+            const price = parseFloat(item.dataValues.price) || parseFloat(item.dataValues.price) || 0;
+            const quantity = parseInt(item.dataValues.quantity) || 0;
 
             if (price <= 0 || quantity <= 0) {
-                console.error("Invalid item data: ", { price, quantity });
                 throw new Error("Invalid item data: Price or quantity is invalid.");
             }
 
             totalPrice += price * quantity;
             return {
                 orderId: null,
-                productId: item.Product?.id,
-                name: item.Product?.name,
+                productId: item.dataValues.id,
+                name: item.dataValues.name,
                 quantity,
                 price,
             };

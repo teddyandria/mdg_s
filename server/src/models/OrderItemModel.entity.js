@@ -1,7 +1,10 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/db.config"); // Connexion à la base de données
+const { DataTypes, Model} = require("sequelize");
+const sequelize = require("../config/db.config");
+//const {sequelize} = require("./index"); // Connexion à la base de données
 
-const OrderItem = sequelize.define("OrderItem", {
+class OrderItemEntity extends Model {}
+
+OrderItemEntity.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -27,6 +30,9 @@ const OrderItem = sequelize.define("OrderItem", {
         type: DataTypes.FLOAT,
         allowNull: false,
     },
+},{
+    sequelize,
+    tableName: "OrderItem",
 });
 
-module.exports = OrderItem;
+module.exports = OrderItemEntity;

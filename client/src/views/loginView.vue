@@ -1,7 +1,6 @@
 <template>
   <div class="flex h-screen font-poppins bg-mdgWhite">
 
-    <!-- Section du formulaire -->
     <div class="flex flex-col justify-center items-center w-full p-6 md:w-1/2 md:p-10">
       <h1 class="text-2xl md:text-4xl font-medium mb-6">Connexion</h1>
 
@@ -59,7 +58,6 @@
       </form>
     </div>
 
-    <!-- Section de l'image (désactivée sur mobile) -->
     <div class="hidden md:block w-1/2 relative bg-cover bg-center">
       <div
           :style="{ 'background-image': `url(${require('../assets/images/madagascar-signup.jpg')})` }"
@@ -75,68 +73,63 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import authService from "../services/authService";
+import axios from "axios";
 
-// Références réactives pour email, password et erreurs
 const email = ref("");
 const password = ref("");
 const error = ref("");
 
-// Router Vue
 const router = useRouter();
+const API_URL = "http://localhost:3000";
 
-// Connexion avec gestion des erreurs et fallback
 async function handleLogin() {
-  error.value = ""; // Réinitialiser le message d'erreur
+  error.value = "";
 
-  // Vérifications de base avant de tenter la connexion
   if (!email.value || !password.value) {
     error.value = "Veuillez saisir vos identifiants.";
     return;
   }
 
   try {
-    // Appel principal à l'authentification
-    const response = await authService.login(email.value, password.value);
-    console.log("Connexion réussie :", response);
+    const emailValue = email.value;
+    const passwordValue = password.value;
+    const response = await axios.post(`http://localhost:3000/login`, { email: emailValue, password: passwordValue });
 
-    // Sauvegarder le token et les données utilisateur dans localStorage
-    if (response.token) {
-      localStorage.setItem("token", response.token);
+
+    if (response.data.token) {
+      localStorage.setItem("token", response.data.token);
     }
 
-    if (response.user) {
-      localStorage.setItem("user", JSON.stringify(response.user));
-      console.log("Utilisateur sauvegardé :", response.user);
+    if (response.data.user) {
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+      console.log("Utilisateur sauvegardé :", response.data.user);
     }
 
-    // Redirection après connexion
     await router.push("/dashboard");
   } catch (err) {
     console.warn("Échec de la connexion :", err.message);
 
-    try {
-      // Fallback en cas de panne de l'authentification normale
-      error.value = "Connexion échouée. Tentative avec un utilisateur fictif...";
-      const fallbackResponse = await authService.fictitiousLogin();
-      console.log("Utilisateur fictif connecté :", fallbackResponse);
-
-      // Sauvegarder les informations fictives
-      if (fallbackResponse.token) {
-        localStorage.setItem("token", fallbackResponse.token);
-      }
-
-      if (fallbackResponse.user) {
-        localStorage.setItem("user", JSON.stringify(fallbackResponse.user));
-        console.log("Utilisateur fictif sauvegardé :", fallbackResponse.user);
-      }
-
-      // Redirection
-      await router.push("/dashboard");
-    } catch (fallbackError) {
-      // Erreur également en mode fictif
-      console.error("Échec de la connexion avec l'utilisateur fictif :", fallbackError.message);
-      error.value = "Impossible de se connecter, même avec un utilisateur fictif.";
-    }
+  //   try {
+  //
+  //     error.value = "Connexion échouée. Tentative avec un utilisateur fictif...";
+  //     const fallbackResponse = await authService.fictitiousLogin();
+  //     console.log("Utilisateur fictif connecté :", fallbackResponse);
+  //
+  //     if (fallbackResponse.token) {
+  //       localStorage.setItem("token", fallbackResponse.token);
+  //     }
+  //
+  //     if (fallbackResponse.user) {
+  //       localStorage.setItem("user", JSON.stringify(fallbackResponse.user));
+  //       console.log("Utilisateur fictif sauvegardé :", fallbackResponse.user);
+  //     }
+  //
+  //     await router.push("/dashboard");
+  //   } catch (fallbackError) {
+  //
+  //     console.error("Échec de la connexion avec l'utilisateur fictif :", fallbackError.message);
+  //     error.value = "Impossible de se connecter, même avec un utilisateur fictif.";
+  //   }
   }
 }
 </script>
